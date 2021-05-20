@@ -1,0 +1,2 @@
+<!--pages/user/index.wxml-->
+<l-tab-bar list="{{list}}" text-selected-color="red" text-unselected-color="black"/>

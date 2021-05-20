@@ -1,0 +1,6 @@
+<!--pages/home/index.wxml-->
+<l-tab-bar list="{{list}}" text-selected-color="red" text-unselected-color="black"/>
+<view class="home">
+  <l-avatar size="200" src="{{userInfo.avatarUrl}}" mode="aspectFit"/>
+  <text>{{userInfo.nickName}}\n</text>
+</view>

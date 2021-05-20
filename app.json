@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/user/index",
+    "pages/login/index",
+    "pages/logs/logs",
+    "pages/home/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#000000",
+    "list": [{
+      "pagePath": "pages/home/index",
+      "text": "组件"
+    }, {
+      "pagePath": "pages/user/index",
+      "text": "接口"
+    }]
+  },
+  "usingComponents": {
+    "l-toast": "miniprogram_npm/lin-ui/toast/index",
+    "l-message": "miniprogram_npm/lin-ui/message/index",
+    "l-avatar":"miniprogram_npm/lin-ui/avatar/index",
+    "l-popup":"miniprogram_npm/lin-ui/popup/index",
+    "l-button":"miniprogram_npm/lin-ui/button/index",
+    "l-mask":"miniprogram_npm/lin-ui/mask/index",
+    "l-dialog":"miniprogram_npm/lin-ui/dialog/index",
+    "l-tab-bar":"miniprogram_npm/lin-ui/tab-bar/index"
+  }
+}

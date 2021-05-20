@@ -1,0 +1,20 @@
+/**index.wxss**/
+.login {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.my_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.show_info {
+  width: 600rpx !important;
+}
+page{
+  height:100%;
+}

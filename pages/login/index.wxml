@@ -1,0 +1,33 @@
+<!--index.wxml-->
+<view class="login" style="background:url(/image/bg.jpg) no-repeat; background-size:100% 100%">
+  <view>
+    <view class="my_container" style="padding-top:5vh">
+      <l-avatar size="200" src="/image/logo.svg" mode="aspectFit"/>
+    </view>
+    <view class="my_container" style="padding-top:2vh">
+     <text style="color:white;font-size:32rpx">星海天文：天文爱好者交流的平台\n</text>
+      <text style="color:DarkSlateBlue;font-size:25rpx;text-aligin:center;padding-top:2vh">星海会员专属活动app\n</text>
+    </view>
+  </view>
+  <view>
+    <!-- <block wx:if="{{!canIUseOpenData}}" calss="userinfo-opendata">
+      <view class="userinfo-avatar" bindtap="bindViewTap">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <open-data type="userNickName"></open-data>
+    </block> -->
+    <view class="my_container" wx:if="{{!hasUserInfo}}" style="align-self:flex-end;padding-bottom:10vh">
+      <button style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;" type='primary' wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 微信授权 </button>
+      <view wx:else style="color:white"> 请升级微信版本 </view>
+      <text style="color:white;font-size:1.5vh;text-aligin:center;padding-top:2vh">*使用本程序需要您使用微信号进行登录\n</text>
+      <text bindtap="showInfo" style="color:yellow;font-size:1.5vh;text-aligin:center;padding-top:1vh">免责申明</text>
+      <l-dialog
+        l-class="show_info"
+        show="{{canShowInfo}}"
+        type="alert"     
+        title="免责声明"
+        content="北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！" />
+    </view>
+  </view>
+  
+</view>
