@@ -1,0 +1,13 @@
+<!--pages/vip/index.wxml-->
+<view class="my_container">
+  <l-card type="primary" plaintext="{{true}}" title="会员权益" l-title-class="my_card" style="position:relative;top:3vh">
+    <l-collapse>
+      <l-collapse-item title="普通会员">
+        普通会员没优惠
+      </l-collapse-item>
+      <l-collapse-item title="星海会员">
+        星海会员人上人
+      </l-collapse-item>
+    </l-collapse>
+  </l-card>
+</view>

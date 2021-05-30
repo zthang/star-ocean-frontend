@@ -3,7 +3,9 @@
     "pages/user/index",
     "pages/login/index",
     "pages/logs/logs",
-    "pages/home/index"
+    "pages/home/index",
+    "pages/userInfo/index",
+    "pages/vip/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -34,6 +36,17 @@
     "l-button":"miniprogram_npm/lin-ui/button/index",
     "l-mask":"miniprogram_npm/lin-ui/mask/index",
     "l-dialog":"miniprogram_npm/lin-ui/dialog/index",
-    "l-tab-bar":"miniprogram_npm/lin-ui/tab-bar/index"
+    "l-tab-bar":"miniprogram_npm/lin-ui/tab-bar/index",
+    "l-card":"miniprogram_npm/lin-ui/card/index",
+    "l-progress":"miniprogram_npm/lin-ui/progress/index",
+    "l-grid":"miniprogram_npm/lin-ui/grid/index",
+    "l-grid-item":"miniprogram_npm/lin-ui/grid-item/index",
+    "l-icon":"miniprogram_npm/lin-ui/icon/index",
+    "l-loading":"miniprogram_npm/lin-ui/loading/index",
+    "l-form":"miniprogram_npm/lin-ui/form/index",
+    "l-form-item":"miniprogram_npm/lin-ui/form-item/index",
+    "l-input":"miniprogram_npm/lin-ui/input/index",
+    "l-collapse":"miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse-item":"miniprogram_npm/lin-ui/collapse-item/index"
   }
 }

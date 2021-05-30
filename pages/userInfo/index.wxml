@@ -1,0 +1,24 @@
+<!--pages/userInfo/index.wxml-->
+<view class="my_container">
+  <l-form name="student" l-form-btn-class="l-form-btn-class" bind:linsubmit="submit">
+    <l-form-item label="姓名:" name="studentName">
+      <l-input disabled id="studentName" value="{{userInfo.name}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+    <l-form-item label="手机号:" name="phone">
+      <l-input disabled id="phone" value="{{userInfo.phone}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+    <l-form-item label="学校:" name="university">
+      <l-input disabled id="university" value="{{userInfo.university}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+
+    <l-form-item label="学号:" name="student_id">
+      <l-input disabled id="student_id" value="{{userInfo.student_id}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+    <l-form-item label="专业:" name="faculty">
+      <l-input disabled id="faculty" value="{{userInfo.faculty}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+    <l-form-item label="加入时间:" name="join_date">
+      <l-input disabled id="join_date" value="{{userInfo.join_date}}" hide-label show-row="{{true}}" />
+    </l-form-item>
+  </l-form>
+</view>

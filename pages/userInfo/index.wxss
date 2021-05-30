@@ -1,0 +1,9 @@
+/* pages/userInfo/index.wxss */
+.my_container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+page{
+  height:100%;
+}

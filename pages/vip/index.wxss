@@ -1,0 +1,13 @@
+/* pages/vip/index.wxss */
+.my_card{
+  color: salmon !important;
+  font-size: large !important;
+}
+.my_container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+page{
+  height:100%;
+}
