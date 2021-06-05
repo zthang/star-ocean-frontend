@@ -2,10 +2,10 @@
 <view class="login" style="background:url(/image/bg.jpg) no-repeat; background-size:100% 100%">
   <view>
     <view class="my_container" style="padding-top:5vh">
-      <l-avatar size="200" src="/image/logo.svg" mode="aspectFit"/>
+      <l-avatar size="200" src="/image/logo.jpg" mode="aspectFit" />
     </view>
     <view class="my_container" style="padding-top:2vh">
-     <text style="color:white;font-size:32rpx">星海天文：天文爱好者交流的平台\n</text>
+      <text style="color:white;font-size:32rpx">星海天文：天文爱好者交流的平台\n</text>
       <text style="color:DarkSlateBlue;font-size:25rpx;text-aligin:center;padding-top:2vh">星海会员专属活动app\n</text>
     </view>
   </view>
@@ -19,23 +19,17 @@
     <l-message />
     <view class="my_container" wx:if="{{!hasUserInfo}}" style="align-self:flex-end;padding-bottom:10vh">
       <!-- <button style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;" type='primary' wx:if="{{canIUseGetUserProfile}}" open-type="getPhoneNumber" bind:getphonenumber="getphonenumber"> 微信授权 </button> -->
-      <button style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;" type='primary' wx:if="{{canIUseGetUserProfile}}" bindtap="tempLogin"> 微信授权 </button>
+      <button
+        style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;"
+        type='primary' wx:if="{{canIUseGetUserProfile}}" bindtap="tempLogin"> 微信授权 </button>
       <view wx:else style="color:white"> 请升级微信版本 </view>
       <text style="color:white;font-size:1.5vh;text-aligin:center;padding-top:2vh">*使用本程序需要您使用微信号进行登录\n</text>
       <text bindtap="showInfo" style="color:yellow;font-size:1.5vh;text-aligin:center;padding-top:1vh">免责申明</text>
-      <l-dialog
-        l-class="show_info"
-        show="{{canShowInfo}}"
-        type="alert"     
-        title="免责声明"
-        content="北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！北京申奥成功啦！" />
-        <l-dialog
-        l-class="show_info"
-        show="{{canShowError}}"
-        type="alert"     
-        title="登录失败"
+      <l-dialog l-class="show_info" l-content-class="my_content" show="{{canShowInfo}}" type="alert" title="免责声明" scroll-y="true"
+        content="凡自愿报名参加由星海天文所组织的活动的同学，即视作已阅读、接受并愿意履行本声明的全部内容，不接受或不愿履行者不得报名参加：\n\n1. 在活动期间，参与者必须严格遵守相关管理规定，保证听从领队及活动负责人的指挥。\n\n2. 活动期间，参与者需要注意加强自我保护、提高自我防范意识。乘坐交通工具时，有序进出，不随意走动；在游览地点时，保证按既定游览路线进行活动，自行远离危险场所。决不擅自攀爬，不私自进行危险性活动。夜间往返温泉酒店自行注意交通安全。\n\n3. 在整个活动过程中，参与者须牢记各时间节点，保证准时集合不迟到，因参与者不遵守约定好的集合时间而造成的任何后果由其自负。\n\n4. 活动期间参与者不得擅自行动，遇到问题应及时向活动组织方工作者与其他志愿者求助。\n\n5. 注意饮食卫生，不食用过期、变质食品和饮料，不在非正规商家摊贩购买食品饮料。\n\n6. 尊重当地群众民俗习惯，遵守相关规定规定，爱护自然景观和人文景观，保持环境卫生，决不损坏公共设施。\n\n7. 行程中时刻注意文明礼貌，自觉维护学校、及个人形象。\n\n8. 活动期间参与者须自行保管随身财物和物品，所有活动组织方工作者原则上没有协助保管的义务。\n\n9. 自由活动期间（包括搭建帐篷、露营）参与者本人对自身安全负责。\n\n10. 活动参与者应提前知晓所有活动内容与整个流程，并确认自己有充分的身体、心理和物质上的准备参加此次活动，如有任何问题须在活动前向协会相关人员咨询。\n\n11. 凡因不听从领队与其他工作人员指挥、劝阻，不遵守相关规章制度，不遵守本声明内容，造成的一切人身、财务上的伤害、损失、纠纷，参与者自行承担一切后果与责任。\n\n12. 因不可抗力或意外造成的伤害与损失星海天文亦不承担任何责任。\n\n13. 参与者需按照情况与需求将自己的行程与去向通知家人、同学等，活动组织方没有义务协助告知。\n\n14. 因参与者违反本申明与其他相关规章制度，不听劝阻与指挥而造成的对于活动组织方与学校的一切损失，星海天文保留追责索赔权力。\n\n15. 本次外出前参与者将全额支付活动费用。报名成功后，如在开车前因个人原因放弃本次外出，活动负责方退还50%的活动费用；如在开车后因个人原因放弃本次外出，恕不退还费用。\n\n16. 星海会员在本次活动中享受优惠金额，活动方将在活动结束后退还相应费用。但星海会员如有因任何原因放弃本次外出的，均不享受优惠政策。\n\n17. 领队与活动负责人有权根据各种不可抗力与意外更改活动行程与时间，但会与各参与者进行妥善协商。\n\n18. 星海天文对本声明以及全部活动保留最终解释权。" />
+      <l-dialog l-class="show_info" show="{{canShowError}}" type="alert" title="登录失败"
         content="手机号未绑定星海会员，可能是您留的星海天文会员的信息与微信绑定的手机号不符，可以联系贵校天文协会社长进行修改。或给我们邮箱留言：thestarocean@126.com。" />
     </view>
   </view>
-  
+
 </view>

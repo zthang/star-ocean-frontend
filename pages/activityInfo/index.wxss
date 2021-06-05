@@ -1,0 +1,7 @@
+/* pages/activityInfo/index.wxss */
+page{
+  height: 100%;
+}
+.ql-container{
+  height: 100%;
+}

@@ -1,0 +1,69 @@
+<!--pages/activityInfo/index.wxml-->
+<l-message />
+<scroll-view scroll-y="{{true}}" style="height:100vh" class="my_container">
+  <view>
+    <view>
+      <button class="cu-btn bg-cyan" style="width:750rpx;height:5vh">👇　活动信息　👇</button>
+      <view class="cu-form-group">
+        <view class="title">活动名称</view>
+        <input disabled="true" value="{{activityInfo.activityName}}"></input>
+        <text class="cuIcon-activityfill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动日期</view>
+        <input disabled="true" value="{{activityInfo.activityDate}}"></input>
+        <text class="cuIcon-calendar text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">报名截止时间</view>
+        <input disabled="true" value="{{activityInfo.activityDDL}}"></input>
+        <text class="cuIcon-countdown text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动地点</view>
+        <input disabled="true" value="{{activityInfo.activityLocation}}"></input>
+        <text class="cuIcon-locationfill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动费用</view>
+        <input disabled="true" value="{{activityInfo.activityPrice}}元"></input>
+        <text class="cuIcon-rechargefill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">可能需要的物资</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{activityInfo.selectedGood}}" wx:key="item">
+            <view class="cu-tag bg-red ">
+              <text class="cuIcon-explorefill"></text>
+            </view>
+            <view class="cu-tag line-red">
+              {{item.name}}
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">可选住宿方案</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{activityInfo.scheme}}" wx:key="item">
+            <view class="cu-tag bg-purple ">
+              <text class="cuIcon-likefill"></text>
+            </view>
+            <view class="cu-tag line-purple">
+              {{item.text}}
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+    <view>
+      <button class="cu-btn bg-cyan" style="width:750rpx;height:5vh">👇　活动介绍　👇</button>
+      <view class="cu-form-group" style="padding:0 0 !important">
+        <editor id="editor" class="ql-container" placeholder="{{placeholder}}" read-only="true">
+        </editor>
+      </view>
+    </view>
+  </view>
+  <button type="primary" bindtap="enrol" class="margin-top">报名</button>
+  <view style="height:10vh"></view>
+</scroll-view>

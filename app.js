@@ -66,6 +66,7 @@ watch(this.globalData[key]);
   globalData: {
     userInfo: null,
     baseURL:'http://localhost:8787/',
+    // baseURL:'http://192.168.1.12:8787/',
     loading:null,
   },
   // wxRequest({
@@ -77,7 +78,7 @@ watch(this.globalData[key]);
   //   if (res.data.state === 200) {
       
   //   }
-  //   else if(res.data.state === -1)
+  //   else
   //   {
   //     wx.lin.showMessage({
   //       type:"error",

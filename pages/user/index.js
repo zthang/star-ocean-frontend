@@ -35,16 +35,23 @@ Component({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: '/image/pic1.jpg'
+      url: 'http://localhost:8787/images/2021/06/02/big84004.jpg'
     }, {
       id: 1,
         type: 'image',
-        url: '/image/pic2.jpg',
+        url: 'http://localhost:8787/images/2021/06/02/big84006.jpg',
     }, {
       id: 2,
       type: 'image',
-      url: '/image/pic1.jpg'
+      url: 'http://localhost:8787/images/2021/06/02/big39006.jpg'
     }],
+    grids1:[
+      {
+        index:11,
+        image:"activity",
+        text:"发布活动"
+      }
+    ],
     grids2:[
       {
         index:0,
@@ -147,6 +154,12 @@ Component({
       {
         wx.navigateTo({
           url: '/pages/vip/index',
+        })
+      }
+      else if(e.currentTarget.dataset.index==11)
+      {
+        wx.navigateTo({
+          url: '/pages/mk_activity/index',
         })
       }
     },

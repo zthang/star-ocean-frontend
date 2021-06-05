@@ -1,38 +1,41 @@
 <!--pages/user/index.wxml-->
-<l-tab-bar list="{{list}}" text-selected-color="red" text-unselected-color="black"/>
+<l-message />
+<l-tab-bar list="{{list}}" text-selected-color="red" text-unselected-color="black" />
 <view class='cu-load load-modal' wx:if="{{loading}}">
-  <image src='/image/loading.gif' ></image>
+  <image src='/image/loading.gif'></image>
   <text style="color:gray">loading...</text>
 </view>
-<view class="my_container">
+<view class="my_container" wx:if="{{userInfo.role!=2}}">
   <view style="width:100%;height:100%;height:26vh">
-    <swiper style="height:26vh !important" class="{{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-  <swiper-item wx:for="{{swiperList}}" wx:key>
-    <image style="width:100%;height:100%" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
-    <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
-  </swiper-item>
-</swiper>
-  </view> 
-  <l-card type="primary"
-          plaintext="{{true}}"
-          l-class="my_card"
-          style="margin-top:6vh;height:24.5vh">
+    <swiper style="height:26vh !important" class="{{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true"
+      circular="true" autoplay="true" interval="5000" duration="500">
+      <swiper-item wx:for="{{swiperList}}" wx:key>
+        <image style="width:100%;height:100%" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
+        <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover"
+          wx:if="{{item.type=='video'}}"></video>
+      </swiper-item>
+    </swiper>
+  </view>
+  <l-card type="primary" plaintext="{{true}}" l-class="my_card" style="margin-top:6vh;height:24.5vh">
     <view class="my_container" style="align-items:center;height:8vh">
-      
-<view class="l-avatar" mut-bind:tap="tapAvatar">
-    <view class="l-avatar-image l-circle my_avatar" style="width:7.6vh;height:7.6vh;">
-        <image src="/image/logo.jpg" mode="aspectFit" style="width:{{size}}rpx;height:{{size}}rpx"/>
+
+      <view class="l-avatar" mut-bind:tap="tapAvatar">
+        <view class="l-avatar-image l-circle my_avatar" style="width:7.6vh;height:7.6vh;">
+          <image src="/image/logo.jpg" mode="aspectFit" style="width:{{size}}rpx;height:{{size}}rpx" />
+        </view>
+      </view>
     </view>
-</view>
-    </view>
-    <view style="display:flex;flex-direction:row;justify-content:space-around;position:relative;bottom:8vh;height:9.2vh">
+    <view
+      style="display:flex;flex-direction:row;justify-content:space-around;position:relative;bottom:8vh;height:9.2vh">
       <view class="my_container" style="align-items:center;position:relative;">
         <text style="color:white;position:relative;">会员码</text>
-        <image src="/image/二维码.png" style="margin-top:1vh;width:60rpx;height:60rpx" bindtap="getVipCode"/>
+        <image src="/image/二维码.png" style="margin-top:1vh;width:60rpx;height:60rpx" bindtap="getVipCode" />
       </view>
-      <view class="my_container" style="padding-left:5vw;padding-right:5vw;border-left:solid 1rpx white;border-right:solid 1rpx white;align-items:center;position:relative;left:1vw">
+      <view class="my_container"
+        style="padding-left:5vw;padding-right:5vw;border-left:solid 1rpx white;border-right:solid 1rpx white;align-items:center;position:relative;left:1vw">
         <text style="padding-top:2vh;color:white;font-size:3vh">{{userInfo.phone}}</text>
-        <button class="cu-btn bg-white {{shadow?'shadow':''}}" style="width:25vw;margin-top:1vh">{{userInfo.role==0?"普通会员":"星海会员"}}</button>
+        <button class="cu-btn bg-white {{shadow?'shadow':''}}"
+          style="width:25vw;margin-top:1vh">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</button>
       </view>
       <view class="my_container" style="align-items:center;position:relative;">
         <text style="color:white;position:relative;">会员积分</text>
@@ -40,19 +43,60 @@
       </view>
     </view>
     <view class="my_container" style="position:relative;bottom:4vh;">
-<l-progress percent="{{userInfo.point%100}}" l-slot-class='slot-class'>
-    <image src="/image/star.png" slot='header' style="width:50rpx;height:50rpx;border-radius:50%;display:block;"/>
-</l-progress>
-<text style="color:white;font-size:25rpx;position:relative;top:3vh">当前等级：LV{{(100-userInfo.point%100+userInfo.point)/100}}，升至下一等级还需要{{100-userInfo.point%100}}积分</text>
+      <l-progress percent="{{userInfo.point%100}}" l-slot-class='slot-class'>
+        <image src="/image/star.png" slot='header' style="width:50rpx;height:50rpx;border-radius:50%;display:block;" />
+      </l-progress>
+      <text
+        style="color:white;font-size:25rpx;position:relative;top:3vh">当前等级：LV{{(100-userInfo.point%100+userInfo.point)/100}}，升至下一等级还需要{{100-userInfo.point%100}}积分</text>
     </view>
   </l-card>
-  <view class="grid col-3 my-padding-sm" style="height:32.3vh;display:flex;justify-content: center;align-items: center;">
-  <view class="my-padding-sm" wx:for="{{grids2}}" wx:key>
-    <view class="bg-white padding radius text-center shadow-blur" bindtap="gridTap" data-index="{{item.index}}">
-      <image src="/image/{{item.image}}.png" style="width:50rpx;height:50rpx"/>
-      <view class="margin-top-sm text-Abc">{{item.text}}</view>
+  <view class="grid col-3 my-padding-sm"
+    style="height:32.3vh;display:flex;justify-content: center;align-items: center;">
+    <view class="my-padding-sm" wx:for="{{grids2}}" wx:key>
+      <view class="bg-white padding radius text-center shadow-blur" bindtap="gridTap" data-index="{{item.index}}">
+        <image src="/image/{{item.image}}.png" style="width:50rpx;height:50rpx" />
+        <view class="margin-top-sm text-Abc">{{item.text}}</view>
+      </view>
     </view>
   </view>
 </view>
-</view>
+<view class="my_container" wx:if="{{userInfo.role==2}}">
+  <view style="width:100%;height:100%;height:26vh">
+    <swiper style="height:26vh !important" class="{{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true"
+      circular="true" autoplay="true" interval="5000" duration="500">
+      <swiper-item wx:for="{{swiperList}}" wx:key>
+        <image style="width:100%;height:100%" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
+        <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover"
+          wx:if="{{item.type=='video'}}"></video>
+      </swiper-item>
+    </swiper>
+  </view>
+  <l-card type="primary" plaintext="{{true}}" l-class="my_card_admin" style="margin-top:6vh;height:12vh">
+    <view class="my_container" style="align-items:center;height:8vh">
 
+      <view class="l-avatar" mut-bind:tap="tapAvatar">
+        <view class="l-avatar-image l-circle my_avatar" style="width:7.6vh;height:7.6vh;">
+          <image src="/image/logo.jpg" mode="aspectFit" style="width:{{size}}rpx;height:{{size}}rpx" />
+        </view>
+      </view>
+    </view>
+    <view
+      style="display:flex;flex-direction:row;justify-content:space-around;position:relative;bottom:8vh;height:9.2vh">
+      <view class="my_container"
+        style="padding-left:5vw;padding-right:5vw;border-left:solid 1rpx white;border-right:solid 1rpx white;align-items:center;position:relative;left:1vw">
+        <text style="padding-top:2vh;color:white;font-size:3vh">{{userInfo.phone}}</text>
+        <button class="cu-btn bg-white {{shadow?'shadow':''}}"
+          style="width:25vw;margin-top:1vh">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</button>
+      </view>
+    </view>
+  </l-card>
+  <view class="grid col-3 my-padding-sm"
+    style="height:32.3vh;display:flex;justify-content: center;align-items: center;">
+    <view class="my-padding-sm" wx:for="{{grids1}}" wx:key>
+      <view class="bg-white padding radius text-center shadow-blur" bindtap="gridTap" data-index="{{item.index}}">
+        <image src="/image/{{item.image}}.png" style="width:50rpx;height:50rpx" />
+        <view class="margin-top-sm text-Abc">{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+</view>

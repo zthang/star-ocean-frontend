@@ -9,6 +9,12 @@
   padding:2vh !important;
   height: 24vh;
 }
+.my_card_admin{
+  background-color: #2E414D  !important;
+  width: 80vw;
+  padding:2vh !important;
+  height: 14vh;
+}
 .my_avatar{
   border:solid 10rpx #2E414D;
   position: relative;

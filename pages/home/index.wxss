@@ -1,9 +1,35 @@
 /* pages/home/index.wxss */
 .home {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-around;
-  align-items: center;
   height: 100%;
+}
+
+page {
+  height: 100%;
+}
+
+.my_tag {
+  position: unset;
+}
+
+.content image {
+  position: unset;
+  z-index: auto;
+}
+
+.my_sticky {
+  height: 50vh;
+}
+
+.my_counting {
+  height: 5vh;
+}
+
+.text-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /*控制在3行*/
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }

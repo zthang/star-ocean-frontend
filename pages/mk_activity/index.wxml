@@ -1,0 +1,176 @@
+<!--pages/mk_activity/index.wxml-->
+<l-message />
+<l-status-show show="{{submitSuccess}}" bg-color="#f3f3f3" l-class="my_state" type="success" button-text="返回"
+  bind:lintap="handleState" data-value="success"></l-status-show>
+<l-status-show show="{{submitError}}" bg-color="#f3f3f3" l-class="my_state" type="error" button-text="返回"
+  bind:lintap="handleState" data-value="error"></l-status-show>
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<scroll-view scroll-y="{{true}}" style="height:100vh" class="my_container">
+  <view style="height:113vh">
+    <view style="height:63vh">
+      <view class="cu-form-group">
+        <view class="title">活动名称</view>
+        <input placeholder="输入活动名称" bindinput="handleInput" data-value="name"></input>
+        <text class="cuIcon-activityfill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动日期</view>
+        <picker mode="date" value="{{date}}" start="2021-06-01" bindchange="DateChange">
+          <view class="picker">
+            {{date}}
+          </view>
+        </picker>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">截止日期</view>
+        <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1"
+          bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+          <view class="text picker">
+            {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}}
+            {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}:{{dateTimeArray1[5][dateTime1[5]]}}
+          </view>
+        </picker>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动地点</view>
+        <input placeholder="输入活动地点" bindinput="handleInput" data-value="location"></input>
+        <text class="cuIcon-locationfill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">活动费用</view>
+        <input placeholder="输入活动费用" bindinput="handleInput" data-value="price"></input>
+        <text class="cuIcon-rechargefill text-orange"></text>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">上车地点</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh;" wx:for="{{selectedLocation}}" wx:key>
+            <view class="cu-tag bg-purple " bindtap="closeLocationTag" data-value="{{item.id}}">
+              <text class="cuIcon-close"></text>
+            </view>
+            <view class="cu-tag line-purple">
+              {{item.name}}
+            </view>
+          </view>
+        </scroll-view>
+        <picker bindchange="locationPickerChange" range="{{locationPicker}}" range-key="name"
+          style="width:10vw;height:100%">
+          <view style="height:7vh"></view>
+        </picker>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">物资选择</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedGood}}" wx:key>
+            <view class="cu-tag bg-red " bindtap="closeGoodTag" data-value="{{item.id}}">
+              <text class="cuIcon-close"></text>
+            </view>
+            <view class="cu-tag line-red">
+              {{item.name}}
+            </view>
+          </view>
+        </scroll-view>
+        <picker bindchange="goodPickerChange" range="{{goodPicker}}" range-key="name">
+          <view style="height:7vh"></view>
+        </picker>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">受限学校</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedUniversity}}" wx:key>
+            <view class="cu-tag bg-cyan " bindtap="closeUniversityTag" data-value="{{item.id}}">
+              <text class="cuIcon-close"></text>
+            </view>
+            <view class="cu-tag line-cyan">
+              {{item.name}}
+            </view>
+          </view>
+        </scroll-view>
+        <picker bindchange="universityPickerChange" range="{{universityPicker}}" range-key="name">
+          <view style="height:7vh"></view>
+        </picker>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">住宿方案</view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{scheme}}" wx:key>
+            <view class="cu-tag bg-orange " bindtap="closeSchemeTag" data-value="{{item}}">
+              <text class="cuIcon-close"></text>
+            </view>
+            <view class="cu-tag line-orange">
+              {{item}}
+            </view>
+          </view>
+        </scroll-view>
+        <button class="cu-btn icon bg-green sm" bindtap="showModal">
+          <view class="text-lg"><text class="cuIcon-add text-white"></text></view>
+        </button>
+        <view class="cu-modal {{showInput==true?'show':''}}">
+          <view class="cu-dialog">
+            <view class="cu-bar bg-white justify-end">
+              <view class="content">样例:自带帐篷睡袋=0</view>
+              <view class="action" bindtap="hideModal">
+                <text class="cuIcon-close text-red"></text>
+              </view>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">方案</view>
+              <input placeholder="输入方案名称..." bindinput="inputChange" />
+            </view>
+            <view class="cu-bar bg-white">
+              <button style="width:20vw" class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+              <button style="width:20vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">确定</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view style="height:50vh">
+      <button class="cu-btn bg-cyan" style="width:200rpx;height:5vh">活动介绍</button>
+      <view class="cu-form-group" style="height:45vh;padding:0 0 !important">
+        <editor id="editor" class="ql-container" placeholder="{{placeholder}}" showImgSize showImgToolbar showImgResize
+          bindstatuschange="onStatusChange" bindready="onEditorReady">
+        </editor>
+      </view>
+    </view>
+  </view>
+  <button type="primary" bindtap="getContent">发布</button>
+  <view class="toolbar" catchtouchend="format" hidden="{{keyboardHeight > 0 ? false : true}}"
+    style="bottom: {{isIOS ? keyboardHeight-scrollHeight : 0}}px;z-index:999">
+    <!-- <view class="toolbar" catchtouchend="format" style="bottom: {{isIOS ? keyboardHeight : 0}}px"> -->
+    <scroll-view scroll-x class="flex-sb" style="height:70rpx;white-space: nowrap;">
+      <i class="iconfont icon-charutupian" catchtouchend="insertImage"></i>
+      <i class="iconfont icon-format-header-1 {{formats.header === 1 ? 'ql-active' : ''}}" data-name="header"
+        data-value="{{1}}"></i>
+      <i class="iconfont icon-format-header-2 {{formats.header === 2 ? 'ql-active' : ''}}" data-name="header"
+        data-value="{{2}}"></i>
+      <i class="iconfont icon-format-header-3 {{formats.header === 3 ? 'ql-active' : ''}}" data-name="header"
+        data-value="{{3}}"></i>
+      <i class="iconfont icon-zitijiacu {{formats.bold ? 'ql-active' : ''}}" data-name="bold"></i>
+      <i class="iconfont icon-zitixieti {{formats.italic ? 'ql-active' : ''}}" data-name="italic"></i>
+      <i class="iconfont icon-zitixiahuaxian {{formats.underline ? 'ql-active' : ''}}" data-name="underline"></i>
+      <i class="iconfont icon-undo" bindtap="undo"></i>
+      <i class="iconfont icon-redo" bindtap="redo"></i>
+      <i class="iconfont icon-shanchu" bindtap="clear"></i>
+      <i class="iconfont icon--checklist" data-name="list" data-value="check"></i>
+      <i class="iconfont icon-youxupailie {{formats.list === 'ordered' ? 'ql-active' : ''}}" data-name="list"
+        data-value="ordered"></i>
+      <i class="iconfont icon-wuxupailie {{formats.list === 'bullet' ? 'ql-active' : ''}}" data-name="list"
+        data-value="bullet"></i>
+
+      <i class="iconfont icon-clearedformat" bindtap="removeFormat"></i>
+      <i class="iconfont icon-zuoduiqi {{formats.align === 'left' ? 'ql-active' : ''}}" data-name="align"
+        data-value="left"></i>
+      <i class="iconfont icon-juzhongduiqi {{formats.align === 'center' ? 'ql-active' : ''}}" data-name="align"
+        data-value="center"></i>
+      <i class="iconfont icon-youduiqi {{formats.align === 'right' ? 'ql-active' : ''}}" data-name="align"
+        data-value="right"></i>
+      <i class="iconfont icon-zuoyouduiqi {{formats.align === 'justify' ? 'ql-active' : ''}}" data-name="align"
+        data-value="justify"></i>
+    </scroll-view>
+  </view>
+  <!-- <view style="height:100vh"></view> -->
+</scroll-view>
