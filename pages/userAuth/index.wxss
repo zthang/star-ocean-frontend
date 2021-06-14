@@ -1,0 +1,2 @@
+/* pages/userAuth/index.wxss */
+@import "../activityEnrol/index.wxss"

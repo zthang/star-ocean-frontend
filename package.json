@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lin-ui": "^0.9.4"
+    "lin-ui": "^0.9.4",
+    "wuss-weapp": "^2.3.3",
+    "wux-weapp": "^3.8.8"
   }
 }

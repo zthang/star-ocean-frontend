@@ -1,0 +1,41 @@
+<!--pages/authUser/index.wxml-->
+<l-tab-bar list="{{list}}" text-selected-color="red" text-unselected-color="black" />
+<l-message />
+<view class="home">
+  <view>
+    <l-sticky mode="js">
+      <l-sticky-item top="0">
+        <view slot="header">
+          <view class="cu-capsule round" style="background:white">
+            <view class="cu-tag bg-blue ">
+              <text class="cuIcon-addressbook"></text>
+            </view>
+            <view class="cu-tag line-blue">
+              待审核列表
+            </view>
+          </view>
+        </view>
+        <view slot="body">
+            <view slot="content">
+              <view class="cu-card article" wx:for="{{authList}}" wx:key="index" bindtap="getAuth" data-value="{{item}}">
+                <view class="cu-item shadow">
+                  <view class="title" style="display:flex;justify-content:space-between">
+                  </view>
+                  <view class="content">
+                    <image src="{{item.images[0]}}" mode="aspectFill"></image>
+                    <view class="desc">
+                        <view class="cu-tag bg-purple light lg round my_tag">{{item.name}}</view>
+                        <view class="cu-tag bg-cyan light lg round my_tag">{{item.university}}</view>
+                        <view class="cu-tag bg-green light lg round my_tag">{{item.tag}}</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <l-loadmore show="{{true}}" line="{{true}}" type="{{loadState}}" end-text="我是有底线的~"/>
+        </view>
+      </l-sticky-item>
+    </l-sticky>
+  </view>
+  <view style="height:106rpx"></view>
+</view>

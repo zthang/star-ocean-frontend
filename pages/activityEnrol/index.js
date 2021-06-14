@@ -15,6 +15,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    userID:-1,
     locationIndex: null,
     schemeIndex: null,
     name: "",
@@ -24,8 +25,7 @@ Component({
     remark: "",
     submitSuccess: false,
     submitError: false,
-    activityInfo: {
-    },
+    activityInfo: {},
     phoneRules: [{
         required: true,
         message: "手机号不能为空"
@@ -51,9 +51,9 @@ Component({
     schemeValid: false,
     locationValid: false,
     isAgree: false,
-    haveRead:false,
-    canCountDown:false,
-    errorMessage:"",
+    haveRead: false,
+    canCountDown: false,
+    errorMessage: "",
   },
 
   /**
@@ -72,50 +72,57 @@ Component({
       }
     },
     submit() {
-      var that=this
+      var that = this
       if (!this.isValid()) {
         wx.lin.showMessage({
           type: 'error',
           content: "请检测是否填写完整！"
         })
       } else {
-        var goodsPrice=0
-        for(var i=0;i<this.data.activityInfo.selectedGood.length;i++)
-          goodsPrice+=this.data.activityInfo.selectedGood[i].price*this.data.activityInfo.selectedGood[i].num
-        var shouldPay=this.data.activityInfo.activityPrice+parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price)+goodsPrice
-        wxRequest({
-          url: 'api/activityEnrol',
-          data: {
-            activityID:this.data.activityInfo.id,
-            userID:app.globalData.userInfo=null?app.globalData.userInfo.id:-1,
-            name:this.data.name,
-            phone:this.data.phone,
-            urgentPhone:this.data.urgentPhone,
-            idCard:this.data.idCard,
-            location:this.data.activityInfo.selectedLocation[this.data.locationIndex].id,
-            scheme:this.data.activityInfo.scheme[this.data.schemeIndex],
-            goods:this.data.activityInfo.selectedGood,
-            remark:this.data.remark,
-            shouldPay:shouldPay
-          },
-        }).then(res => {
-          console.log(res)
-          if (res.data.state === 200) {
-            that.setData({
-              submitSuccess:true
-            })
-          } else {
-            that.setData({
-              submitError:true,
-              errorMessage:res.data.message
-            })
-            wx.lin.showMessage({
-              type: "error",
-              content: res.data.message
+        var goodsPrice = 0
+        for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
+          goodsPrice += this.data.activityInfo.selectedGood[i].price * this.data.activityInfo.selectedGood[i].num
+        var shouldPay = this.data.activityInfo.activityPrice + parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price) + goodsPrice
+        wx.requestSubscribeMessage({
+          tmplIds: ['vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
+          success(res) {
+            console.log('消息提醒', res)
+            wxRequest({
+              url: 'api/activityEnrol',
+              data: {
+                activityID: that.data.activityInfo.id,
+                userID: app.globalData.userInfo.id,
+                name: that.data.name,
+                phone: that.data.phone,
+                urgentPhone: that.data.urgentPhone,
+                idCard: that.data.idCard,
+                location: that.data.activityInfo.selectedLocation[that.data.locationIndex].id,
+                scheme: that.data.activityInfo.scheme[that.data.schemeIndex],
+                goods: that.data.activityInfo.selectedGood,
+                remark: that.data.remark,
+                shouldPay: shouldPay,
+                openid: wx.getStorageSync('openid')
+              },
+            }).then(res => {
+              console.log(res)
+              if (res.data.state === 200) {
+                that.setData({
+                  submitSuccess: true
+                })
+              } else {
+                that.setData({
+                  submitError: true,
+                  errorMessage: res.data.message
+                })
+                wx.lin.showMessage({
+                  type: "error",
+                  content: res.data.message
+                })
+              }
+            }).catch(err => {
+              console.log(err)
             })
           }
-        }).catch(err => {
-          console.log(err)
         })
       }
     },
@@ -129,9 +136,12 @@ Component({
       const eventChannel = this.getOpenerEventChannel()
       eventChannel.on('activityInfo', function (data) {
         that.setData({
-          activityInfo:data
+          activityInfo: data
         })
         console.log(that.data.activityInfo.selectedLocation)
+      })
+      this.setData({
+        userID:app.globalData.userInfo.id
       })
     },
     tapAgree(e) {
@@ -180,7 +190,7 @@ Component({
         this.setData({
           idCard: e.detail.value
         })
-      }else if (e.currentTarget.dataset.value == "remark") {
+      } else if (e.currentTarget.dataset.value == "remark") {
         this.setData({
           remark: e.detail.value
         })
@@ -202,22 +212,22 @@ Component({
       }
     },
     isValid() {
-      return this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
+      return this.data.name.length>1&&this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
     },
     showInfo(e) {
       this.setData({
         canShowInfo: true,
-        canCountDown:true
+        canCountDown: true
       })
     },
-    canArgee(e){
+    canArgee(e) {
       this.setData({
-        haveRead:true
+        haveRead: true
       })
     },
-    confirmAgree(e){
+    confirmAgree(e) {
       this.setData({
-        canCountDown:false
+        canCountDown: false
       })
     }
   },

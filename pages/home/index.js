@@ -32,17 +32,17 @@ Component({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: 'http://localhost:8787/images/2021/06/02/big84004.jpg'
+      url: 'https://xzxjlljh.xyz:8787/images/image/big84004.jpg'
     }, {
       id: 1,
       type: 'image',
-      url: 'http://localhost:8787/images/2021/06/02/big84006.jpg',
+      url: 'https://xzxjlljh.xyz:8787/images/image/big84006.jpg',
     }, {
       id: 2,
       type: 'image',
-      url: 'http://localhost:8787/images/2021/06/02/big39006.jpg'
+      url: 'https://xzxjlljh.xyz:8787/images/image/big39006.jpg'
     }, ],
-    activityList: [1, 2, 3],
+    activityList: [],
     loadState: "loading",
     index: 0,
     size: 3,
@@ -81,10 +81,19 @@ Component({
       }).then(res => {
         console.log(res)
         if (res.data.state === 200) {
-          that.setData({
-            index: that.data.index + 1,
-            activityList: res.data.data
-          })
+          if(res.data.data.length>0)
+          {
+            that.setData({
+              index: that.data.index + 1,
+              activityList: res.data.data,
+              loadState:res.data.data.length==that.data.size?"loading":"end"
+            })
+          }
+          else{
+            that.setData({
+              loadState: "end"
+            })
+          }
         } else {
           wx.lin.showMessage({
             type: "error",
@@ -116,7 +125,8 @@ Component({
             {
               that.setData({
                 activityList: that.data.activityList.concat(res.data.data),
-                index:that.data.index+1
+                index:that.data.index+1,
+                loadState:res.data.data.length==that.data.size?"loading":"end"
               });
             }
           else {

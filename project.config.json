@@ -21,8 +21,8 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
-    "useApiHook": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
     "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
@@ -40,7 +40,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.17.0",
-  "appid": "wxc7d981fc555abd89",
+  "appid": "wx1bdbda9945782439",
   "projectname": "%E6%98%9F%E6%B5%B7%E5%A4%A9%E6%96%87",
   "debugOptions": {
     "hidedInDevtools": []

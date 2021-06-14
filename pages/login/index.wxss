@@ -23,3 +23,9 @@
 page{
   height:100%;
 }
+.my_row{
+  height: 0px !important;
+}
+.my_input_color{
+  color:black !important;
+}

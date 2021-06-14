@@ -1,0 +1,45 @@
+<!--pages/activityList/index.wxml-->
+<l-message />
+<view class="home">
+  <view>
+    <l-sticky mode="js">
+      <l-sticky-item top="0">
+        <view slot="header">
+          <view class="cu-capsule round" style="background:white">
+            <view class="cu-tag bg-blue ">
+              <text class="cuIcon-discoverfill"></text>
+            </view>
+            <view class="cu-tag line-blue">
+              活动广场
+            </view>
+          </view>
+        </view>
+        <view slot="body">
+            <view slot="content">
+              <view class="cu-card article" wx:for="{{activityList}}" wx:key="index" bindtap="getActivity" data-value="{{item}}">
+                <view class="cu-item shadow">
+                  <view class="title" style="display:flex;justify-content:space-between">
+                    <view class="text-cut" style="width:240rpx">{{item.activityName}}</view>
+                    <l-countdown l-class="my_counting" time="{{item.activityDDL}}"/>
+                  </view>
+                  <view class="content">
+                    <image src="{{item.showImg}}" mode="aspectFill"></image>
+                    <view class="desc">
+                      <view class="text-content">{{item.plainText}}</view>
+                      <scroll-view scroll-x="true" style="width:50vw;white-space:nowrap;">
+                        <view class="cu-tag bg-purple light sm round my_tag">{{item.activityDate}}</view>
+                        <view class="cu-tag bg-cyan light sm round my_tag">{{item.activityLocation}}</view>
+                        <view class="cu-tag bg-green light sm round my_tag">{{item.activityPrice}}元</view>
+                      </scroll-view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <l-loadmore show="{{true}}" line="{{true}}" type="{{loadState}}" end-text="我是有底线的~"/>
+        </view>
+      </l-sticky-item>
+    </l-sticky>
+  </view>
+  <view style="height:106rpx"></view>
+</view>

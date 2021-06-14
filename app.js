@@ -65,8 +65,8 @@ watch(this.globalData[key]);
   },
   globalData: {
     userInfo: null,
-    baseURL:'http://localhost:8787/',
-    // baseURL:'http://192.168.1.12:8787/',
+    // baseURL:'https://localhost:8787/',
+    baseURL:'https://xzxjlljh.xyz:8787/',
     loading:null,
   },
   // wxRequest({

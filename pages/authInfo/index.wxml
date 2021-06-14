@@ -1,0 +1,57 @@
+<!--pages/authInfo/index.wxml-->
+<l-message />
+<l-toast />
+<l-status-show show="{{submitSuccess}}" bg-color="#f3f3f3" l-class="my_state" type="success" button-text="返回"
+  bind:lintap="handleState" data-value="success"></l-status-show>
+<l-status-show show="{{submitError}}" bg-color="#f3f3f3" l-class="my_state" type="error" button-text="返回"
+  describe="{{errorMessage}}" bind:lintap="handleState" data-value="error"></l-status-show>
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<view style="height:90vh" class="my_container">
+  <view>
+    <view>
+      <view class="cu-form-group">
+        <view class="title">姓名:</view>
+        <input disabled="true" value="{{authInfo.name}}"></input>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">学校:</view>
+        <input disabled="true" value="{{authInfo.university}}"></input>
+      </view>
+      <view class="cu-form-group">
+        <view class="title">状态:</view>
+        <input disabled="true" value="{{authInfo.tag}}"></input>
+      </view>
+      <scroll-view scroll-y="true" style="height:60vh">
+        <image wx:for="{{authInfo.images}}" wx:key="index" src='{{item}}' mode='aspectFill'></image>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+<view style="display:flex;justify-content:space-around">
+  <view class="margin-tb-sm text-center">
+    <button class="cu-btn round bg-green" bindtap="handlePass" data-value="pass">审核通过</button>
+  </view>
+  <view class="margin-tb-sm text-center">
+    <button class="cu-btn round bg-red" bindtap="handlePass" data-value="notPass">审核不通过</button>
+  </view>
+</view>
+<view class="cu-modal {{showInput==true?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">请输入审核失败原因(20字内)</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="cu-form-group">
+      <input placeholder="输入原因..." bindinput="inputChange" />
+    </view>
+    <view class="cu-bar bg-white">
+      <button style="width:20vw" class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+      <button style="width:20vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">确定</button>
+    </view>
+  </view>
+</view>
