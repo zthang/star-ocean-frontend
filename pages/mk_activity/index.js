@@ -16,6 +16,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    isEditing:false,
     loading: false,
     formats: {},
     readOnly: false,
@@ -265,7 +266,7 @@ Component({
                   activityDDL:that.data.dateTimeArray1[0][that.data.dateTime1[0]]+'-'+that.data.dateTimeArray1[1][that.data.dateTime1[1]]+'-'+that.data.dateTimeArray1[2][that.data.dateTime1[2]]+' '+
                   that.data.dateTimeArray1[3][that.data.dateTime1[3]]+':'+that.data.dateTimeArray1[4][that.data.dateTime1[4]]+':'+that.data.dateTimeArray1[5][that.data.dateTime1[5]],
                   activityLocation: that.data.activityLocation,
-                  activityPrice: that.data.activityPrice,
+                  activityPrice: that.data.activityPrice.replace(/(^\s*)|(\s*$)/g,""),
                   selectedLocation: that.data.selectedLocation.map(item => item.id),
                   selectedGood: that.data.selectedGood.map(item => item.id),
                   selectedUniversity: that.data.selectedUniversity.map(item => item.id),
@@ -361,7 +362,7 @@ Component({
         console.log(err)
       })
       wxRequest({
-        url: 'api/getUniversity',
+        url: 'getUniversity',
         data: {},
         method: "GET"
       }).then(res => {
@@ -452,8 +453,15 @@ Component({
       const navigationBarHeight = isIOS ? 44 : 48
       return statusBarHeight + navigationBarHeight
     },
+    focus(){
+      this.setData({
+        isEditing:true
+      })
+    },
     blur() {
-      this.editorCtx.blur()
+      this.setData({
+        isEditing:false
+      })
     },
     format(e) {
       let {

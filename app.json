@@ -1,14 +1,20 @@
 {
   "pages": [
+    "pages/login/index",
     "pages/user/index",
     "pages/activityEnrol/index",
     "pages/activityInfo/index",
     "pages/home/index",
     "pages/mk_activity/index",
-    "pages/login/index",
     "pages/logs/logs",
     "pages/userInfo/index",
-    "pages/vip/index"
+    "pages/vip/index",
+    "pages/userAuth/index",
+    "pages/authUser/index",
+    "pages/authInfo/index",
+    "pages/activityList/index",
+    "pages/activityStatistic/index",
+    "pages/ud_activity/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,42 +29,47 @@
     "color": "#000000",
     "selectedColor": "#000000",
     "backgroundColor": "#000000",
-    "list": [{
-      "pagePath": "pages/home/index",
-      "text": "组件"
-    }, {
-      "pagePath": "pages/user/index",
-      "text": "接口"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "组件"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "接口"
+      }
+    ]
   },
   "usingComponents": {
     "content-card": "/components/content-card/index",
     "l-toast": "miniprogram_npm/lin-ui/toast/index",
     "l-message": "miniprogram_npm/lin-ui/message/index",
-    "l-avatar":"miniprogram_npm/lin-ui/avatar/index",
-    "l-popup":"miniprogram_npm/lin-ui/popup/index",
-    "l-button":"miniprogram_npm/lin-ui/button/index",
-    "l-mask":"miniprogram_npm/lin-ui/mask/index",
-    "l-dialog":"miniprogram_npm/lin-ui/dialog/index",
-    "l-tab-bar":"miniprogram_npm/lin-ui/tab-bar/index",
-    "l-card":"miniprogram_npm/lin-ui/card/index",
-    "l-progress":"miniprogram_npm/lin-ui/progress/index",
-    "l-grid":"miniprogram_npm/lin-ui/grid/index",
-    "l-grid-item":"miniprogram_npm/lin-ui/grid-item/index",
-    "l-icon":"miniprogram_npm/lin-ui/icon/index",
-    "l-loading":"miniprogram_npm/lin-ui/loading/index",
-    "l-form":"miniprogram_npm/lin-ui/form/index",
-    "l-form-item":"miniprogram_npm/lin-ui/form-item/index",
-    "l-input":"miniprogram_npm/lin-ui/input/index",
-    "l-collapse":"miniprogram_npm/lin-ui/collapse/index",
-    "l-collapse-item":"miniprogram_npm/lin-ui/collapse-item/index",
-    "l-status-show":"miniprogram_npm/lin-ui/status-show/index",
-    "l-sticky":"miniprogram_npm/lin-ui/sticky/index",
-    "l-sticky-item":"miniprogram_npm/lin-ui/sticky-item/index",
-    "l-loadmore":"miniprogram_npm/lin-ui/loadmore/index",
-    "l-countdown":"miniprogram_npm/lin-ui/countdown/index",
-    "l-counter":"miniprogram_npm/lin-ui/counter/index",
-    "l-radio":"miniprogram_npm/lin-ui/radio/index",
-    "l-radio-group":"miniprogram_npm/lin-ui/radio-group/index"
+    "l-avatar": "miniprogram_npm/lin-ui/avatar/index",
+    "l-popup": "miniprogram_npm/lin-ui/popup/index",
+    "l-button": "miniprogram_npm/lin-ui/button/index",
+    "l-mask": "miniprogram_npm/lin-ui/mask/index",
+    "l-dialog": "miniprogram_npm/lin-ui/dialog/index",
+    "l-tab-bar": "miniprogram_npm/lin-ui/tab-bar/index",
+    "l-card": "miniprogram_npm/lin-ui/card/index",
+    "l-progress": "miniprogram_npm/lin-ui/progress/index",
+    "l-grid": "miniprogram_npm/lin-ui/grid/index",
+    "l-grid-item": "miniprogram_npm/lin-ui/grid-item/index",
+    "l-icon": "miniprogram_npm/lin-ui/icon/index",
+    "l-loading": "miniprogram_npm/lin-ui/loading/index",
+    "l-form": "miniprogram_npm/lin-ui/form/index",
+    "l-form-item": "miniprogram_npm/lin-ui/form-item/index",
+    "l-input": "miniprogram_npm/lin-ui/input/index",
+    "l-collapse": "miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse-item": "miniprogram_npm/lin-ui/collapse-item/index",
+    "l-status-show": "miniprogram_npm/lin-ui/status-show/index",
+    "l-sticky": "miniprogram_npm/lin-ui/sticky/index",
+    "l-sticky-item": "miniprogram_npm/lin-ui/sticky-item/index",
+    "l-loadmore": "miniprogram_npm/lin-ui/loadmore/index",
+    "l-countdown": "miniprogram_npm/lin-ui/countdown/index",
+    "l-counter": "miniprogram_npm/lin-ui/counter/index",
+    "l-radio": "miniprogram_npm/lin-ui/radio/index",
+    "l-radio-group": "miniprogram_npm/lin-ui/radio-group/index",
+    "w-drop-menu": "miniprogram_npm/wuss-weapp/w-drop-menu/index",
+    "wux-fab-button": "miniprogram_npm/wux-weapp/fab-button/index"
   }
 }

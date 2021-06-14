@@ -1,0 +1,41 @@
+Arguments: 
+  /usr/local/Cellar/node/11.2.0/bin/node /usr/local/bin/yarn add wux-weapp --production
+
+PATH: 
+  /Users/zhangtianhang/anaconda3/bin:/Users/zhangtianhang/anaconda3/condabin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin:/Users/zhangtianhang/Documents/apache-tomcat-9.0.12/bin:/Applications/MacVim.app/Contents/bin:/Users/zhangtianhang/Documents/apache-maven-3.6.0/bin:/usr/local/mongodb/bin:/Users/zhangtianhang/anaconda3/envs/bishe/bin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  11.2.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.nlark.com/wux-weapp/download/wux-weapp-3.8.8.tgz: unexpected end of file
+      at Zlib.zlibOnError [as onerror] (zlib.js:155:17)
+
+npm manifest: 
+  {
+    "name": "miniprogram-2",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "lin-ui": "^0.9.4",
+      "wux-weapp": "^3.8.8"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

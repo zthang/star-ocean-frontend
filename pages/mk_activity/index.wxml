@@ -47,7 +47,7 @@
       <view class="cu-form-group">
         <view class="title">上车地点</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
-          <view class="cu-capsule radius" style="height:4vh;" wx:for="{{selectedLocation}}" wx:key>
+          <view class="cu-capsule radius" style="height:4vh;" wx:for="{{selectedLocation}}" wx:key="index">
             <view class="cu-tag bg-purple " bindtap="closeLocationTag" data-value="{{item.id}}">
               <text class="cuIcon-close"></text>
             </view>
@@ -64,7 +64,7 @@
       <view class="cu-form-group">
         <view class="title">物资选择</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
-          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedGood}}" wx:key>
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedGood}}" wx:key="index">
             <view class="cu-tag bg-red " bindtap="closeGoodTag" data-value="{{item.id}}">
               <text class="cuIcon-close"></text>
             </view>
@@ -80,7 +80,7 @@
       <view class="cu-form-group">
         <view class="title">受限学校</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
-          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedUniversity}}" wx:key>
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedUniversity}}" wx:key="index">
             <view class="cu-tag bg-cyan " bindtap="closeUniversityTag" data-value="{{item.id}}">
               <text class="cuIcon-close"></text>
             </view>
@@ -96,7 +96,7 @@
       <view class="cu-form-group">
         <view class="title">住宿方案</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
-          <view class="cu-capsule radius" style="height:4vh" wx:for="{{scheme}}" wx:key>
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{scheme}}" wx:key="index">
             <view class="cu-tag bg-orange " bindtap="closeSchemeTag" data-value="{{item}}">
               <text class="cuIcon-close"></text>
             </view>
@@ -132,13 +132,13 @@
       <button class="cu-btn bg-cyan" style="width:200rpx;height:5vh">活动介绍</button>
       <view class="cu-form-group" style="height:45vh;padding:0 0 !important">
         <editor id="editor" class="ql-container" placeholder="{{placeholder}}" showImgSize showImgToolbar showImgResize
-          bindstatuschange="onStatusChange" bindready="onEditorReady">
+          bindstatuschange="onStatusChange" bindready="onEditorReady" bindfocus="focus" bindblur="blur">
         </editor>
       </view>
     </view>
   </view>
   <button type="primary" bindtap="getContent">发布</button>
-  <view class="toolbar" catchtouchend="format" hidden="{{keyboardHeight > 0 ? false : true}}"
+  <view class="toolbar" catchtouchend="format" hidden="{{isEditing ? false : true}}"
     style="bottom: {{isIOS ? keyboardHeight-scrollHeight : 0}}px;z-index:999">
     <!-- <view class="toolbar" catchtouchend="format" style="bottom: {{isIOS ? keyboardHeight : 0}}px"> -->
     <scroll-view scroll-x class="flex-sb" style="height:70rpx;white-space: nowrap;">
@@ -172,5 +172,5 @@
         data-value="justify"></i>
     </scroll-view>
   </view>
-  <!-- <view style="height:100vh"></view> -->
+  <view style="height:10vh"></view>
 </scroll-view>

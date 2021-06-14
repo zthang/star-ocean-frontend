@@ -16,18 +16,18 @@
       clear="true" required="{{true}}"></l-input>
     <text class="cuIcon-profile text-orange"></text>
   </view>
-  <view class="cu-form-group">
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
     <l-input l-row-class="my_row" label="手机号" placeholder="输入手机号..." bind:linvalidate="handleValidation"
       bind:lininput="handleInput" data-value="phone" clear="true" required="{{true}}" rules="{{phoneRules}}"></l-input>
     <text class="cuIcon-mobilefill text-orange"></text>
   </view>
-  <view class="cu-form-group">
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
     <l-input l-row-class="my_row" l-label-class="my_input" label="紧急联系人电话" placeholder="输入紧急联系人电话号..."
       bind:linvalidate="handleValidation" bind:lininput="handleInput" data-value="urgentPhone" clear="true"
       required="{{true}}" rules="{{phoneRules}}"></l-input>
     <text class="cuIcon-friendfill text-orange"></text>
   </view>
-  <view class="cu-form-group">
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
     <l-input l-row-class="my_row" label="身份证号码" placeholder="输入身份证号码..." bind:linvalidate="handleValidation"
       bind:lininput="handleInput" data-value="idCard" clear="true" required="{{true}}" rules="{{idCardRules}}">
     </l-input>
@@ -98,11 +98,14 @@
       <l-radio-group id="sex" placement="row" bind:linchange="tapAgree">
         <l-radio disabled="{{!haveRead}}" key="agree"></l-radio>
       </l-radio-group>
-      我同意<text bindtap="showInfo" style="color:#0081ff">服务条款</text>
+      我同意<text bindtap="showInfo" style="color:#0081ff">隐私政策及服务条款</text>
     </view>
-    <l-dialog l-class="show_info" l-content-class="my_content" show="{{canShowInfo}}" type="alert" title="服务条款"
+    <l-dialog l-class="show_info" l-content-class="my_content" show="{{canShowInfo}}" type="alert" title="隐私政策"
       bind:linconfirm="confirmAgree">
       <scroll-view scroll-y="true" style="height:95%">
+        <text>
+          本软件尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，本软件会按照本隐私权政策的规定使用您的个人信息。但本软件将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，本软件不会将这些信息对外披露或向第三方提供。本软件会不时更新本隐私权政策。您在同意本软件服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本软件服务使用协议不可分割的一部分。\n\n1.适用范围\n\na.在您使用本软件网络服务时，本软件会记录您的手机号、爱迪号、姓名等信息；\n\n2.信息的使用\n\na.在获得您的数据之后，本软件会将其上传至服务器，以生成您的报名数据，以便您能够更好地使用服务。\n\n3.信息披露\n\na.本软件不会将您的信息披露给不受信任的第三方。\n\nb.根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；\n\nc.如您出现违反中国有关法律、法规或者相关规则的情况，需要向第三方披露；\n\n4.信息存储和交换\n\n本软件收集的有关您的信息和资料将保存在本软件及（或）其关联公司的服务器上，这些信息和资料可能传送至您所在国家、地区或本软件收集信息和资料所在地的境外并在境外被访问、存储和展示。\n\n5.信息安全\n\na.在使用本软件网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，请您立即联络本软件客服，以便本软件采取相应措施
+        </text>
         <text>凡自愿报名参加由星海天文所组织的活动的同学，即视作已阅读、接受并愿意履行本声明的全部内容，不接受或不愿履行者不得报名参加：\n\n1.
           在活动期间，参与者必须严格遵守相关管理规定，保证听从领队及活动负责人的指挥。\n\n2.
           活动期间，参与者需要注意加强自我保护、提高自我防范意识。乘坐交通工具时，有序进出，不随意走动；在游览地点时，保证按既定游览路线进行活动，自行远离危险场所。决不擅自攀爬，不私自进行危险性活动。夜间往返温泉酒店自行注意交通安全。\n\n3.

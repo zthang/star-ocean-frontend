@@ -29,7 +29,7 @@
         </view>
         <view slot="body">
             <view slot="content">
-              <view class="cu-card article" wx:for="{{activityList}}" bindtap="getActivity" data-value="{{item}}">
+              <view class="cu-card article" wx:for="{{activityList}}" wx:key="index" bindtap="getActivity" data-value="{{item}}">
                 <view class="cu-item shadow">
                   <view class="title" style="display:flex;justify-content:space-between">
                     <view class="text-cut" style="width:240rpx">{{item.activityName}}</view>

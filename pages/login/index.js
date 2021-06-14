@@ -7,8 +7,23 @@ const {
 
 Page({
   data: {
+    studentRules: [{
+        required: true,
+        message: "学号不能为空"
+      },
+      // {
+      //   pattern: '^1(3|4|5|7|8)\\d{9}$',
+      //   message: '手机号不正确，请重新输入'
+      // }
+    ],
+    universityList:null,
+    universityIndex:null,
+    studentID: null,
+    name:"",
+    isStudentValid: false,
+    universityValid: false,
     canShowInfo: false,
-    canShowErrpr:false,
+    canShowErrpr: false,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -21,6 +36,25 @@ Page({
       url: '../logs/logs'
     })
   },
+  handleInput(e) {
+    if (e.currentTarget.dataset.value == "student_id") {
+      this.setData({
+        studentID: e.detail.value
+      })
+    } else if (e.currentTarget.dataset.value == "name") {
+      this.setData({
+        name: e.detail.value
+      })
+    }
+  },
+  handleValidation(e) {
+    console.log(e)
+    if (e.currentTarget.dataset.value == "student_id") {
+      this.setData({
+        isStudentValid: !e.detail.isError
+      })
+    }
+  },
   onLoad() {
     if (wx.getUserProfile) {
       console.log(this.data.hasUserInfo)
@@ -28,42 +62,99 @@ Page({
         canIUseGetUserProfile: true
       })
     }
-  },
+    wxRequest({
+      url: 'getUniversity',
+      data: {},
+      method: "GET"
+    }).then(res => {
+      if (res.data.state === 200) {
+        this.setData({
+          universityList: res.data.data
+        })
+      } else if (res.data.state === -1) {
+        wx.lin.showMessage({
+          type: "error",
+          content: res.data.message
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+  })
+},
   showInfo(e) {
     this.setData({
       canShowInfo: true
     })
   },
-  tempLogin(e) {
-    wxRequest({
-      url: 'loginByPhone',
-      data: {
-        openid:wx.getStorageSync("openid"),
-        phone: "18817221868",
-      },
-    }).then(res => {
-      console.log(res)
-      if (res.data.state === 200) {
-        wx.setStorageSync('accessToken', res.data.data.token)
-        wx.setStorageSync('userID', res.data.data.userID)
-        wx.switchTab({
-          url: '/pages/user/index',
-        })
-      }
-      else if(res.data.state === -1)
-      {
-        wx.lin.showMessage({
-          type:"error",
-          content:res.data.message
-        })
-        this.setData({
-          canShowError:true
-        })
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+  PickerChange(e) {
+    if (e.currentTarget.dataset.value == "university") {
+      this.setData({
+        universityIndex: e.detail.value,
+        universityValid: true
+      })
+    }
   },
+  isValid() {
+    return this.data.name.length>1 && this.data.isStudentValid && this.data.universityValid
+  },
+  tempLogin(e) {
+    console.log(this.data)
+    var that=this
+    if (!this.isValid()) {
+      wx.lin.showMessage({
+        type: "error",
+        content: "请检查是否填写完整无误"
+      })
+    } else {
+      wxRequest({
+        url: 'loginByPhone',
+        data: {
+          openid: wx.getStorageSync("openid"),
+          university:that.data.universityList[that.data.universityIndex].name,
+          name:that.data.name,
+          studentID: that.data.studentID,
+        },
+      }).then(res => {
+        console.log(res)
+        if (res.data.state === 200) {
+          wx.setStorageSync('accessToken', res.data.data.token)
+          wx.setStorageSync('userID', res.data.data.userID)
+          wxRequest({
+            url: 'api/getUserInfo',
+            data: {
+              userID: res.data.data.userID,
+            },
+            method: "GET"
+          }).then(res => {
+            if (res.data.state === 200) {
+              app.globalData.userInfo = res.data.data
+              wx.switchTab({
+                url: '/pages/home/index',
+              })
+            } else if (res.data.state === -1) {
+              wx.lin.showMessage({
+                type: "error",
+                content: res.data.message
+              })
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        } else if (res.data.state === -1) {
+          wx.lin.showMessage({
+            type: "error",
+            content: res.data.message
+          })
+          this.setData({
+            canShowError: true
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+
   getphonenumberMethod(e) {
     console.log(e.detail.errMsg)
     console.log(e.detail.iv)
@@ -75,11 +166,11 @@ Page({
     })
 
     // 用手机号登陆
-    var openId_ = wx.getStorageSync('openId')
+    var openid = wx.getStorageSync('openid')
     wxRequest({
       url: 'loginByPhone',
       data: {
-        openId: openId_,
+        openid: openid,
         encryptedData: e.detail.encryptedData,
         iv: e.detail.iv,
       },

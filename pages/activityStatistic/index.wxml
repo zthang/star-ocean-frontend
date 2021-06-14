@@ -1,0 +1,42 @@
+<!--pages/activityStatisic/index.wxml-->
+<l-message />
+<l-toast />
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<w-drop-menu options="{{  options  }}" bind:onChange="handleChange">
+</w-drop-menu>
+<wux-fab-button position="bottomLeft" theme="royal" direction="vertical" buttons="{{ buttons }}" bind:change="onChange"
+  bind:click="onClick" />
+<view class="cu-form-group" style="justify-content:space-around" wx:for="{{items}}" wx:key="index" data-index="index" data-id="{{item.id}}">
+  <scroll-view scroll-x="true" style="white-space:nowrap;">
+    <view class="cu-tag line-grey" wx:if="{{item.tempText}}">{{item.tempText}}</view>
+    <view class="cu-tag line-grey">姓名:{{item.name}}</view>
+    <view class="cu-tag line-grey">手机号:{{item.phone}}</view>
+    <view class="cu-tag line-grey">紧急联系方式:{{item.urgentPhone}}</view>
+    <view class="cu-tag line-grey">身份证:{{item.idCard}}</view>
+    <view class="cu-tag line-grey">应付款:{{item.shouldPay}}元</view>
+    <view class="cu-tag line-grey">备注:{{item.remark}}</view>
+  </scroll-view>
+  <checkbox-group bindchange="checkboxChange" data-value="{{index}}" wx:if="{{isVisible}}">
+    <checkbox class="round blue" checked="{{item.selected}}"></checkbox>
+  </checkbox-group>
+  <view class="cu-modal {{showInput==true?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">输入通知内容(20字内)</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="cu-form-group">
+      <input placeholder="输入通知内容..." bindinput="inputChange" />
+    </view>
+    <view class="cu-bar bg-white">
+      <button style="width:20vw" class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+      <button style="width:20vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">确定</button>
+    </view>
+  </view>
+</view>
+</view>

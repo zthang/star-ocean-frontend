@@ -1,0 +1,14 @@
+/* pages/authUser/index.wxss */
+.my_sticky {
+  height: 50vh;
+}
+page{
+  height: 100%;
+}
+.my_tag {
+  position: unset;
+}
+.content image {
+  position: unset;
+  z-index: auto;
+}

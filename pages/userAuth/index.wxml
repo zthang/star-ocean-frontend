@@ -1,0 +1,46 @@
+<!--pages/userAuth/index.wxml-->
+<l-message />
+<l-toast />
+<l-status-show show="{{submitSuccess}}" bg-color="#f3f3f3" l-class="my_state" type="success" button-text="返回"
+  bind:lintap="handleState" data-value="success"></l-status-show>
+<l-status-show show="{{submitError}}" bg-color="#f3f3f3" l-class="my_state" type="error" button-text="返回"
+  describe="{{errorMessage}}" bind:lintap="handleState" data-value="error"></l-status-show>
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<view class="cu-bar bg-white margin-top">
+  <view class="action">
+    学生证或学生卡上传
+  </view>
+  <view class="action">
+    {{imgList.length}}/4
+  </view>
+</view>
+<view class="cu-form-group">
+  <view class="grid col-4 grid-square flex-sub">
+    <view class="bg-img" wx:for="{{imgList}}" wx:key="index" bindtap="ViewImage" data-url="{{imgList[index]}}">
+      <image src='{{imgList[index]}}' mode='aspectFill'></image>
+      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+        <text class="cuIcon-close"></text>
+      </view>
+    </view>
+    <view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<4}}">
+      <text class="cuIcon-cameraadd"></text>
+    </view>
+  </view>
+</view>
+<view class="ticket-container-bottom">
+    <l-collapse>
+      <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+        <!--自定义标题-->
+        <view class="title" slot="title">
+          <view class="ticket-detail-container">照片上传要求
+            <l-icon name="down" size="16" color="#999" />
+          </view>
+        </view>
+        <text>请上传学生证或学生卡带有姓名和照片的那一页(或几页)以核验学生身份,要求照片清晰,最多支持上传4张照片</text>
+      </l-collapse-item>
+    </l-collapse>
+  </view>
+  <button type="primary" bindtap="submit" class="margin-top">提交</button>
