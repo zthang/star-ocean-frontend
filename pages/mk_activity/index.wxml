@@ -78,10 +78,10 @@
         </picker>
       </view>
       <view class="cu-form-group">
-        <view class="title">受限学校</view>
+        <view class="title">受众社团</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
-          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedUniversity}}" wx:key="index">
-            <view class="cu-tag bg-cyan " bindtap="closeUniversityTag" data-value="{{item.id}}">
+          <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedClub}}" wx:key="index">
+            <view class="cu-tag bg-cyan " bindtap="closeClubTag" data-value="{{item.id}}">
               <text class="cuIcon-close"></text>
             </view>
             <view class="cu-tag line-cyan">
@@ -89,7 +89,7 @@
             </view>
           </view>
         </scroll-view>
-        <picker bindchange="universityPickerChange" range="{{universityPicker}}" range-key="name">
+        <picker bindchange="clubPickerChange" range="{{clubPicker}}" range-key="name">
           <view style="height:7vh"></view>
         </picker>
       </view>
@@ -139,7 +139,7 @@
   </view>
   <button type="primary" bindtap="getContent">发布</button>
   <view class="toolbar" catchtouchend="format" hidden="{{isEditing ? false : true}}"
-    style="bottom: {{isIOS ? keyboardHeight-scrollHeight : 0}}px;z-index:999">
+    style="bottom: {{isIOS ? keyboardHeight-scrollHeight : 0}}px;z-index:999;background:white">
     <!-- <view class="toolbar" catchtouchend="format" style="bottom: {{isIOS ? keyboardHeight : 0}}px"> -->
     <scroll-view scroll-x class="flex-sb" style="height:70rpx;white-space: nowrap;">
       <i class="iconfont icon-charutupian" catchtouchend="insertImage"></i>

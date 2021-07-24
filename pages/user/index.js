@@ -59,6 +59,11 @@ Component({
       image: "activityInfo",
       text: "活动详情"
     },
+    {
+      index: 14,
+      image: "editSomething",
+      text: "信息修改"
+    }
   ],
     grids2: [{
         index: 0,
@@ -189,6 +194,10 @@ Component({
       } else if (e.currentTarget.dataset.index == 13) {
         wx.navigateTo({
           url: '/pages/activityList/index',
+        })
+      } else if (e.currentTarget.dataset.index == 14) {
+        wx.navigateTo({
+          url: '/pages/editSomething/index',
         })
       }
     },

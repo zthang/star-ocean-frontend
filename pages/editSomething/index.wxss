@@ -1,0 +1,15 @@
+/* pages/editSomething/index.wxss */
+.my_card{
+  color: salmon !important;
+  font-size: large !important;
+}
+.my_collapse {
+  margin: 2vh 0 0 0 !important;
+  width: 100vw !important;
+}
+.my_input_color{
+  color:black !important;
+}
+.my_row{
+  height: 0px !important;
+}

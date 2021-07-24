@@ -10,7 +10,7 @@
   <text style="color:gray">loading...</text>
 </view>
 <scroll-view scroll-y="{{true}}" style="height:100vh" class="my_container">
-  <button class="cu-btn bg-cyan" style="width:750rpx;height:5vh">👇　信息填写　👇</button>
+  <view class="cu-btn bg-cyan" style="width:750rpx;height:5vh;font-weight:700;">👇　信息填写　👇</view>
   <view class="cu-form-group">
     <l-input l-row-class="my_row" label="姓名" placeholder="输入姓名..." bind:lininput="handleInput" data-value="name"
       clear="true" required="{{true}}"></l-input>
@@ -58,7 +58,7 @@
       </picker>
     </view>
 
-    <button class="cu-btn bg-cyan margin-top" style="width:750rpx;height:5vh">👇　物资选择　👇</button>
+    <view class="cu-btn bg-cyan margin-top" style="width:750rpx;height:5vh;font-weight:700;">👇　物资选择　👇</view>
     <view class="margin-top">
       <view style="background:white;display:flex;justify-content:space-between;" class="cu-form-group"
         wx:for="{{activityInfo.selectedGood}}" wx:key="item">
@@ -104,7 +104,7 @@
       bind:linconfirm="confirmAgree">
       <scroll-view scroll-y="true" style="height:95%">
         <text>
-          本软件尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，本软件会按照本隐私权政策的规定使用您的个人信息。但本软件将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，本软件不会将这些信息对外披露或向第三方提供。本软件会不时更新本隐私权政策。您在同意本软件服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本软件服务使用协议不可分割的一部分。\n\n1.适用范围\n\na.在您使用本软件网络服务时，本软件会记录您的手机号、爱迪号、姓名等信息；\n\n2.信息的使用\n\na.在获得您的数据之后，本软件会将其上传至服务器，以生成您的报名数据，以便您能够更好地使用服务。\n\n3.信息披露\n\na.本软件不会将您的信息披露给不受信任的第三方。\n\nb.根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；\n\nc.如您出现违反中国有关法律、法规或者相关规则的情况，需要向第三方披露；\n\n4.信息存储和交换\n\n本软件收集的有关您的信息和资料将保存在本软件及（或）其关联公司的服务器上，这些信息和资料可能传送至您所在国家、地区或本软件收集信息和资料所在地的境外并在境外被访问、存储和展示。\n\n5.信息安全\n\na.在使用本软件网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，请您立即联络本软件客服，以便本软件采取相应措施
+          本软件尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，本软件会按照本隐私权政策的规定使用您的个人信息。但本软件将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，本软件不会将这些信息对外披露或向第三方提供。本软件会不时更新本隐私权政策。您在同意本软件服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本软件服务使用协议不可分割的一部分。\n\n1.适用范围\n\na.在您使用本软件网络服务时，本软件会记录您的手机号、身份证号、姓名等信息；\n\n2.信息的使用\n\na.在获得您的数据之后，本软件会将其上传至服务器，以生成您的报名数据，以便您能够更好地使用服务。\n\n3.信息披露\n\na.本软件不会将您的信息披露给不受信任的第三方。\n\nb.根据法律的有关规定，或者行政或司法机构的要求，向第三方或者行政、司法机构披露；\n\nc.如您出现违反中国有关法律、法规或者相关规则的情况，需要向第三方披露；\n\n4.信息存储和交换\n\n本软件收集的有关您的信息和资料将保存在本软件及（或）其关联公司的服务器上，这些信息和资料可能传送至您所在国家、地区或本软件收集信息和资料所在地的境外并在境外被访问、存储和展示。\n\n5.信息安全\n\na.在使用本软件网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，请您立即联络本软件客服，以便本软件采取相应措施
         </text>
         <text>凡自愿报名参加由星海天文所组织的活动的同学，即视作已阅读、接受并愿意履行本声明的全部内容，不接受或不愿履行者不得报名参加：\n\n1.
           在活动期间，参与者必须严格遵守相关管理规定，保证听从领队及活动负责人的指挥。\n\n2.
@@ -121,9 +121,11 @@
           星海会员在本次活动中享受优惠金额，活动方将在活动结束后退还相应费用。但星海会员如有因任何原因放弃本次外出的，均不享受优惠政策。\n\n17.
           领队与活动负责人有权根据各种不可抗力与意外更改活动行程与时间，但会与各参与者进行妥善协商。\n\n18. 星海天文对本声明以及全部活动保留最终解释权。</text>
       </scroll-view>
+      //todo
       <l-countdown time-type="second" time="15" status="{{canCountDown}}" format="阅读{%s}秒后方可勾选"
         bind:linend="canArgee" />
     </l-dialog>
     <button type="primary" bindtap="submit" class="margin-top">确认提交</button>
   </view>
+  <view style="height:10vh"></view>
 </scroll-view>

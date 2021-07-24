@@ -72,12 +72,12 @@ Component({
         });
       });
       wxRequest({
-        url: 'api/getActivity',
+        url: 'api/getActivityByUser',
         data: {
           index: that.data.index,
-          size: that.data.size
+          size: that.data.size,
+          club: app.globalData.userInfo.club.map(item=>item.clubID+"")
         },
-        method: "GET"
       }).then(res => {
         console.log(res)
         if (res.data.state === 200) {
@@ -112,12 +112,12 @@ Component({
     onReachBottom: function () {
       var that = this
       wxRequest({
-        url: 'api/getActivity',
+        url: 'api/getActivityByUser',
         data: {
           index: that.data.index,
-          size: that.data.size
+          size: that.data.size,
+          club: app.globalData.userInfo.club.map(item=>item.clubID+"")
         },
-        method: "GET"
       }).then(res => {
         console.log(res)
         if (res.data.state === 200) {

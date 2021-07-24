@@ -30,14 +30,6 @@ Component({
           activityInfo: data
         }, () => {
           that.data.activityInfo.delta = JSON.parse(that.data.activityInfo.delta)
-          for (var i = 0; i < that.data.activityInfo.scheme.length; i++) {
-            var arr = that.data.activityInfo.scheme[i].split('=')
-            that.data.activityInfo.scheme[i] = that.data.activityInfo.scheme[i].replace('=', ',') + "元/人"
-            that.data.activityInfo.scheme[i] = {
-              "text": that.data.activityInfo.scheme[i],
-              "price": arr[1]
-            }
-          }
           that.setData({
             activityInfo: that.data.activityInfo
           }, () => {
@@ -59,15 +51,16 @@ Component({
     },
     enrol() {
       var that = this
-      var isBanned = that.data.activityInfo.selectedUniversity.findIndex(item => item.name == app.globalData.userInfo.university) != -1
+      // var isBanned = that.data.activityInfo.selectedUniversity.findIndex(item => item.name == app.globalData.userInfo.university) != -1
       var ddl = new Date(Date.parse(that.data.activityInfo.activityDDL.replace('-', '/')))
       var now = new Date()
-      if (isBanned) {
-        wx.lin.showMessage({
-          type: "error",
-          content: "您所在的学校不在此次活动范围内！"
-        })
-      } else if (ddl.getTime() < now.getTime()) {
+      // if (isBanned) {
+      //   wx.lin.showMessage({
+      //     type: "error",
+      //     content: "您所在的学校不在此次活动范围内！"
+      //   })
+      // } else 
+      if (ddl.getTime() < now.getTime()) {
         wx.lin.showMessage({
           type: "error",
           content: "已过活动报名截止日期！"

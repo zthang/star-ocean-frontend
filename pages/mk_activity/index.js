@@ -33,8 +33,8 @@ Component({
     selectedLocation: [],
     goodPicker: [],
     selectedGood: [],
-    universityPicker: [],
-    selectedUniversity: [],
+    clubPicker: [],
+    selectedClub: [],
     showInput: false,
     inputContent: "",
     scheme: [],
@@ -114,7 +114,7 @@ Component({
       })
     },
     confirmModal(e) {
-      this.data.scheme.push(this.data.inputContent)
+      this.data.scheme.push(this.data.inputContent.replace('＝','=').replace('，',','))
       this.setData({
         scheme: this.data.scheme,
         showInput: false
@@ -143,12 +143,12 @@ Component({
         })
       }
     },
-    universityPickerChange(e) {
+    clubPickerChange(e) {
       var index = e.detail.value
-      if (this.data.selectedUniversity.findIndex(item => item.id == this.data.universityPicker[index].id) == -1) {
-        this.data.selectedUniversity.push(this.data.universityPicker[index])
+      if (this.data.selectedClub.findIndex(item => item.id == this.data.clubPicker[index].id) == -1) {
+        this.data.selectedClub.push(this.data.clubPicker[index])
         this.setData({
-          selectedUniversity: this.data.selectedUniversity
+          selectedClub: this.data.selectedClub
         })
       }
     },
@@ -166,11 +166,11 @@ Component({
         selectedGood: this.data.selectedGood
       })
     },
-    closeUniversityTag(e) {
+    closeClubTag(e) {
       var removeID = e.currentTarget.dataset.value
-      this.data.selectedUniversity.splice(this.data.selectedUniversity.findIndex(item => item.id == removeID), 1)
+      this.data.selectedClub.splice(this.data.selectedClub.findIndex(item => item.id == removeID), 1)
       this.setData({
-        selectedUniversity: this.data.selectedUniversity
+        selectedClub: this.data.selectedClub
       })
     },
     closeSchemeTag(e) {
@@ -245,6 +245,7 @@ Component({
                   resolve(result.data);
                   var data = JSON.parse(result.data)
                   res.delta.ops[data.imageid].insert.image = data.imageurl
+                  res.delta.ops[data.imageid].attributes["data-local"]=data.imageurl
                 },
                 fail: function (error) {
                   reject(new Error('failed to upload file'));
@@ -266,10 +267,10 @@ Component({
                   activityDDL:that.data.dateTimeArray1[0][that.data.dateTime1[0]]+'-'+that.data.dateTimeArray1[1][that.data.dateTime1[1]]+'-'+that.data.dateTimeArray1[2][that.data.dateTime1[2]]+' '+
                   that.data.dateTimeArray1[3][that.data.dateTime1[3]]+':'+that.data.dateTimeArray1[4][that.data.dateTime1[4]]+':'+that.data.dateTimeArray1[5][that.data.dateTime1[5]],
                   activityLocation: that.data.activityLocation,
-                  activityPrice: that.data.activityPrice.replace(/(^\s*)|(\s*$)/g,""),
+                  activityPrice: parseInt(that.data.activityPrice),
                   selectedLocation: that.data.selectedLocation.map(item => item.id),
                   selectedGood: that.data.selectedGood.map(item => item.id),
-                  selectedUniversity: that.data.selectedUniversity.map(item => item.id),
+                  selectedClub: that.data.selectedClub.map(item => item.id),
                   scheme: that.data.scheme,
                   delta: JSON.stringify(that.data.delta),
                   showImg: result.length > 0 ? JSON.parse(result[0].value).imageurl : null,
@@ -362,13 +363,13 @@ Component({
         console.log(err)
       })
       wxRequest({
-        url: 'getUniversity',
+        url: 'api/getClub',
         data: {},
         method: "GET"
       }).then(res => {
         if (res.data.state === 200) {
           this.setData({
-            universityPicker: res.data.data
+            clubPicker: res.data.data
           })
         } else if (res.data.state === -1) {
           wx.lin.showMessage({

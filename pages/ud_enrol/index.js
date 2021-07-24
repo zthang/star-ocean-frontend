@@ -15,7 +15,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    userID:-1,
+    userID: null,
     locationIndex: null,
     schemeIndex: null,
     name: "",
@@ -25,7 +25,6 @@ Component({
     remark: "",
     submitSuccess: false,
     submitError: false,
-    activityInfo: {},
     phoneRules: [{
         required: true,
         message: "手机号不能为空"
@@ -73,58 +72,47 @@ Component({
     },
     submit() {
       var that = this
-      if (!this.isValid()) {
-        wx.lin.showMessage({
-          type: 'error',
-          content: "请检测是否填写完整！"
-        })
-      } else {
-        var goodsPrice = 0
-        for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
-          goodsPrice += this.data.activityInfo.selectedGood[i].price * this.data.activityInfo.selectedGood[i].num
-        var shouldPay = this.data.activityInfo.activityPrice + parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price) + goodsPrice
-        wx.requestSubscribeMessage({
-          tmplIds: ['vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
-          success(res) {
-            console.log('消息提醒', res)
-            wxRequest({
-              url: 'api/activityEnrol',
-              data: {
-                activityID: that.data.activityInfo.id,
-                userID: app.globalData.userInfo.id,
-                name: that.data.name,
-                phone: that.data.phone,
-                urgentPhone: that.data.urgentPhone,
-                idCard: that.data.idCard,
-                location: that.data.activityInfo.selectedLocation[that.data.locationIndex].id,
-                scheme: that.data.activityInfo.scheme[that.data.schemeIndex],
-                goods: that.data.activityInfo.selectedGood,
-                remark: that.data.remark,
-                shouldPay: shouldPay,
-                openid: wx.getStorageSync('openid')
-              },
-            }).then(res => {
-              console.log(res)
-              if (res.data.state === 200) {
-                that.setData({
-                  submitSuccess: true
-                })
-              } else {
-                that.setData({
-                  submitError: true,
-                  errorMessage: res.data.message
-                })
-                wx.lin.showMessage({
-                  type: "error",
-                  content: res.data.message
-                })
-              }
-            }).catch(err => {
-              console.log(err)
-            })
-          }
-        })
-      }
+      var goodsPrice = 0
+      for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
+        goodsPrice += this.data.activityInfo.selectedGood[i].price * this.data.activityInfo.selectedGood[i].num
+      var shouldPay = this.data.activityInfo.activityPrice + parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price) + goodsPrice
+
+      wxRequest({
+        url: 'api/updateEnrol',
+        data: {
+          enrolID: that.data.enrolID,
+          activityID: that.data.activityID,
+          userID: that.data.userID,
+          name: that.data.name,
+          phone: that.data.phone,
+          urgentPhone: that.data.urgentPhone,
+          idCard: that.data.idCard,
+          location: that.data.activityInfo.selectedLocation[that.data.locationIndex].id,
+          scheme: that.data.activityInfo.scheme[that.data.schemeIndex],
+          goods: that.data.activityInfo.selectedGood,
+          remark: that.data.remark,
+          shouldPay: shouldPay,
+          openid: that.data.openid
+        },
+      }).then(res => {
+        console.log(res)
+        if (res.data.state === 200) {
+          that.setData({
+            submitSuccess: true
+          })
+        } else {
+          that.setData({
+            submitError: true,
+            errorMessage: res.data.message
+          })
+          wx.lin.showMessage({
+            type: "error",
+            content: res.data.message
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     onLoad: function (option) {
       var that = this
@@ -134,13 +122,28 @@ Component({
         });
       });
       const eventChannel = this.getOpenerEventChannel()
-      eventChannel.on('activityInfo', function (data) {
+      eventChannel.on('activityEnrolInfo', function (data) {
+        var locationIndex=data.activityInfo.selectedLocation.findIndex((item)=>
+          item.id==data.enrolInfo.location.id
+        )
+        var schemeIndex=data.activityInfo.scheme.findIndex((item)=>
+          data.enrolInfo.scheme.text.indexOf(item.text)!=-1
+        )
         that.setData({
-          activityInfo: data
+          selectedGood:data.activityInfo.selectedGood,
+          enrolID:data.enrolInfo.id,
+          activityInfo:data.activityInfo,
+          userID:data.enrolInfo.userID,
+          openid:data.enrolInfo.openid,
+          activityID:data.enrolInfo.activityID,
+          name:data.enrolInfo.name,
+          phone:data.enrolInfo.phone,
+          urgentPhone:data.enrolInfo.urgentPhone,
+          idCard:data.enrolInfo.idCard,
+          remark:data.enrolInfo.remark,
+          locationIndex:locationIndex,
+          schemeIndex:schemeIndex,
         })
-      })
-      this.setData({
-        userID:app.globalData.userInfo.id
       })
     },
     tapAgree(e) {
@@ -150,11 +153,12 @@ Component({
     },
     handleCount(e) {
       var id = e.currentTarget.dataset.value
+      var str='activityInfo.selectedGood'
       this.data.activityInfo.selectedGood.map((item) => {
         if (item.id == id) {
           item.num = e.detail.count
           this.setData({
-            activityInfo: this.data.activityInfo
+            [str]: this.data.activityInfo.selectedGood
           })
         }
       })
@@ -211,7 +215,7 @@ Component({
       }
     },
     isValid() {
-      return this.data.name.length>1&&this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
+      return this.data.name.length > 1 && this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
     },
     showInfo(e) {
       this.setData({

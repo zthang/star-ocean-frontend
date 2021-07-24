@@ -6,6 +6,13 @@
   <text style="color:gray">loading...</text>
 </view>
 <view class="my_container" wx:if="{{userInfo.role!=2}}">
+  <movable-area class="movable-area">
+    <movable-view class="movable-view" direction="vertical" x="650rpx" y="500rpx">
+      <button class="cu-btn icon" style="background-color:white" open-type="contact">
+        <image src='/image/service.png' style="width:50rpx;height:50rpx"></image>
+  </button>
+    </movable-view>
+  </movable-area>
   <view style="width:100%;height:100%;height:26vh">
     <swiper style="height:26vh !important" class="{{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true"
       circular="true" autoplay="true" interval="5000" duration="500">
@@ -33,9 +40,8 @@
       </view>
       <view class="my_container"
         style="padding-left:5vw;padding-right:5vw;border-left:solid 1rpx white;border-right:solid 1rpx white;align-items:center;position:relative;left:1vw">
-        <text style="padding-top:2vh;color:white;font-size:3vh">{{userInfo.phone}}</text>
-        <button class="cu-btn bg-white {{shadow?'shadow':''}}"
-          style="width:25vw;margin-top:1vh">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</button>
+        <text style="padding-top:1.5vh;color:white;width:30vw;display:table-cell;vertical-align:middle;text-align:center;">{{userInfo.club[0].name}}</text>
+        <view class="my_button cu-btn bg-white {{shadow?'shadow':''}}">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</view>
       </view>
       <view class="my_container" style="align-items:center;position:relative;">
         <text style="color:white;position:relative;">会员积分</text>
@@ -84,9 +90,8 @@
       style="display:flex;flex-direction:row;justify-content:space-around;position:relative;bottom:8vh;height:9.2vh">
       <view class="my_container"
         style="padding-left:5vw;padding-right:5vw;border-left:solid 1rpx white;border-right:solid 1rpx white;align-items:center;position:relative;left:1vw">
-        <text style="padding-top:2vh;color:white;font-size:3vh">{{userInfo.phone}}</text>
-        <button class="cu-btn bg-white {{shadow?'shadow':''}}"
-          style="width:25vw;margin-top:1vh">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</button>
+        <text style="padding-top:1.5vh;color:white;font-size:3vh">{{userInfo.phone}}</text>
+        <button class="my_button cu-btn bg-white {{shadow?'shadow':''}}">{{userInfo.role==0?"普通会员":userInfo.role==1?"星海会员":"管理员"}}</button>
       </view>
     </view>
   </l-card>

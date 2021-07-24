@@ -1,0 +1,201 @@
+<!--pages/editSomething/index.wxml-->
+<l-message />
+<l-toast />
+<l-status-show show="{{submitSuccess}}" bg-color="#f3f3f3" l-class="my_state" type="success" button-text="返回"
+  bind:lintap="handleState" data-value="success"></l-status-show>
+<l-status-show show="{{submitError}}" bg-color="#f3f3f3" l-class="my_state" type="error" button-text="返回"
+  describe="{{errorMessage}}" bind:lintap="handleState" data-value="error"></l-status-show>
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<wux-fab-button position="bottomLeft" theme="royal" direction="vertical" buttons="{{ buttons }}" bind:click="onClick" />
+<scroll-view scroll-x class="bg-green nav text-center">
+  <view class="cu-item {{0==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="0">
+    <text class="cuIcon-location"></text> 上车地点
+  </view>
+  <view class="cu-item {{1==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="1">
+    <text class="cuIcon-goods"></text> 活动物资
+  </view>
+  <view class="cu-item {{2==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="2">
+    <text class="cuIcon-group"></text> 用户信息
+  </view>
+</scroll-view>
+<view class="cu-list menu-avatar" wx:if="{{0==TabCur}}">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{items}}" wx:if="{{item.state!=3}}"
+    wx:key="index" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd"
+    data-target="move-box-{{index}}">
+    <view class="content" style="left:50rpx;width:100%">
+      <view class="text-grey">{{item.name}}</view>
+    </view>
+    <view class="move">
+      <view class="bg-blue" bindtap="editItem" data-index="{{index}}">编辑</view>
+      <view class="bg-red" bindtap="deleteItem" data-index="{{index}}">删除</view>
+    </view>
+  </view>
+  <view class="cu-modal {{showInput==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">编辑</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="cu-form-group">
+        <input placeholder="请输入名称..." bindinput="inputChange" />
+      </view>
+      <view class="cu-bar bg-white">
+        <button style="width:20vw" class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+        <button style="width:20vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-list menu-avatar" wx:if="{{1==TabCur}}">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{items}}" wx:if="{{item.state!=3}}"
+    wx:key="index" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd"
+    data-target="move-box-{{index}}">
+    <view class="content" style="left:50rpx;width:100%">
+      <view class="text-grey">{{item.name}}</view>
+    </view>
+    <view class="action">
+      <view class="cu-tag round bg-grey sm">{{item.price}}元</view>
+    </view>
+    <view class="move">
+      <view class="bg-blue" bindtap="editItem" data-index="{{index}}">编辑</view>
+      <view class="bg-red" bindtap="deleteItem" data-index="{{index}}">删除</view>
+    </view>
+  </view>
+  <view class="cu-modal {{showInput==true?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">编辑</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="cu-form-group">
+        <input placeholder="请输入名称..." bindinput="inputChange" />
+        <input placeholder="请输入价格..." bindinput="priceInputChange" />
+      </view>
+      <view class="cu-bar bg-white">
+        <button style="width:20vw" class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+        <button style="width:20vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+<view wx:if="{{2==TabCur}}" style="position:relative;top:1vh">
+  <l-search-bar confirmType="search" placeholder="搜索用户姓名" bg-color="white" shape="circle" cancel-text="搜索"
+    bind:lincancel="searchName" bind:linchange="inputChange" data-value="search" />
+  <view wx:if="{{showInput}}" class="margin-top">
+    <view class="cu-form-group">
+      <l-input l-row-class="my_row" width="300" disabled="true" l-label-class="my_input_color" disabled="true"
+        label="选择学校" required="{{true}}">
+      </l-input>
+      <picker bindchange="PickerChange" value="{{universityIndex}}" range="{{universityPicker}}" range-key="name"
+        data-value="university">
+        <view class="picker">
+          {{universityIndex?universityPicker[universityIndex].name:'选择学校'}}
+        </view>
+      </picker>
+    </view>
+    <view class="cu-form-group">
+      <l-input label="学号" placeholder="输入学号" l-row-class="my_row" l-label-class="my_input_color"
+        bind:lininput="handleInput" data-value="studentID" required="{{true}}"></l-input>
+    </view>
+    <view class="cu-form-group">
+      <l-input label="姓名" placeholder="输入姓名" l-row-class="my_row" l-label-class="my_input_color"
+        bind:lininput="handleInput" data-value="name" required="{{true}}"></l-input>
+    </view>
+    <view class="cu-form-group">
+      <l-input label="手机号" placeholder="输入手机号" l-row-class="my_row" l-label-class="my_input_color"
+        bind:lininput="handleInput" data-value="phone"></l-input>
+    </view>
+    <view class="cu-form-group">
+      <l-input label="身份证" placeholder="输入身份证" l-row-class="my_row" l-label-class="my_input_color"
+        bind:lininput="handleInput" data-value="idCard"></l-input>
+    </view>
+    <view class="cu-form-group">
+      <view class="title" style="width:25vw;padding-left:25rpx">所属社团</view>
+      <scroll-view scroll-x="true" class="picker" style="width:46vw;white-space:nowrap;">
+        <view class="cu-capsule radius" style="height:4vh;" wx:for="{{club}}" wx:key="index">
+          <view class="cu-tag bg-red " bindtap="closeClubTag" data-index="{{index}}">
+            <text class="cuIcon-close"></text>
+          </view>
+          <view class="cu-tag line-red">
+            {{item.name}}
+          </view>
+        </view>
+      </scroll-view>
+      <picker bindchange="PickerChange" range="{{clubPicker}}" range-key="name" style="width:10vw;height:100%"
+        data-value="club">
+        <view style="height:7vh"></view>
+      </picker>
+    </view>
+    <view class="cu-form-group">
+      <view class="title" style="padding-left:25rpx">是否会员</view>
+      <switch checked="{{role==1}}" bindchange="switchChange"></switch>
+    </view>
+  </view>
+  <l-card wx:if="{{items.length>0}}" type="primary" plaintext="{{true}}" title="搜索结果" l-title-class="my_card"
+    l-class="my_collapse">
+    <l-collapse>
+      <l-collapse-item wx:for="{{items}}" wx:for-index="itemindex" wx:key="itemindex"
+        title="{{item.club[0].name}} 学号:{{item.studentID}}">
+        <view class="cu-form-group">
+          <view class="title">选择学校</view>
+          <picker bindchange="PickerChange" value="{{item.universityIndex}}" range="{{universityPicker}}"
+            range-key="name" data-value="university" data-index="{{itemindex}}">
+            <view class="picker">
+              {{item.universityIndex!=-1?universityPicker[item.universityIndex].name:'选择学校'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">学号</view>
+          <input placeholder="输入学号" bindinput="handleInput" data-itemindex="{{itemindex}}" data-value="studentID"
+            value="{{item.studentID}}"></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">姓名</view>
+          <input placeholder="输入姓名" bindinput="handleInput" data-itemindex="{{itemindex}}" data-value="name"
+            value="{{item.name}}"></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">手机号</view>
+          <input placeholder="输入手机号" bindinput="handleInput" data-itemindex="{{itemindex}}" data-value="phone"
+            value="{{item.phone}}"></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">身份证</view>
+          <input placeholder="输入身份证" bindinput="handleInput" data-itemindex="{{itemindex}}" data-value="idCard"
+            value="{{item.idCard}}"></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title" style="width:22vw">所属社团</view>
+          <scroll-view scroll-x="true" class="picker" style="width:50vw;white-space:nowrap;">
+            <view class="cu-capsule radius" style="height:4vh;" wx:for="{{item.club}}" wx:for-index="clubindex"
+              wx:key="clubindex" wx:for-item="club" wx:if="{{club.state!=3}}">
+              <view class="cu-tag bg-red " bindtap="closeClubTag" data-itemindex="{{itemindex}}"
+                data-clubindex="{{clubindex}}">
+                <text class="cuIcon-close"></text>
+              </view>
+              <view class="cu-tag line-red">
+                {{club.name}}
+              </view>
+            </view>
+          </scroll-view>
+          <picker bindchange="PickerChange" range="{{clubPicker}}" range-key="name" data-itemindex="{{itemindex}}"
+            style="width:10vw;height:100%" data-value="club">
+            <view style="height:7vh"></view>
+          </picker>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">是否会员</view>
+          <switch checked="{{item.role==1}}" bindchange="switchChange" data-itemindex="{{itemindex}}"></switch>
+        </view>
+      </l-collapse-item>
+    </l-collapse>
+  </l-card>
+</view>
