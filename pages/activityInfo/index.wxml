@@ -3,7 +3,7 @@
 <scroll-view scroll-y="{{true}}" style="height:100vh" class="my_container">
   <view>
     <view>
-      <button class="cu-btn bg-cyan" style="width:750rpx;height:5vh">👇　活动信息　👇</button>
+      <view class="cu-btn bg-cyan" style="width:750rpx;height:5vh;font-weight:700;">👇　活动信息　👇</view>
       <view class="cu-form-group">
         <view class="title">活动名称</view>
         <input disabled="true" value="{{activityInfo.activityName}}"></input>
@@ -57,7 +57,7 @@
       </view>
     </view>
     <view>
-      <button class="cu-btn bg-cyan" style="width:750rpx;height:5vh">👇　活动介绍　👇</button>
+      <view class="cu-btn bg-cyan" style="width:750rpx;height:5vh;font-weight:700;">👇　活动介绍　👇</view>
       <view class="cu-form-group" style="padding:0 0 !important">
         <editor id="editor" class="ql-container" placeholder="{{placeholder}}" read-only="true">
         </editor>

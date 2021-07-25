@@ -1,0 +1,99 @@
+<!--pages/activityEnrol/index.wxml-->
+<l-message />
+<l-toast />
+<l-status-show show="{{submitSuccess}}" bg-color="#f3f3f3" l-class="my_state" type="success" button-text="返回"
+  bind:lintap="handleState" data-value="success"></l-status-show>
+<l-status-show show="{{submitError}}" bg-color="#f3f3f3" l-class="my_state" type="error" button-text="返回"
+  describe="{{errorMessage}}" bind:lintap="handleState" data-value="error"></l-status-show>
+<view class='cu-load load-modal' wx:if="{{loading}}">
+  <image src='/image/loading.gif'></image>
+  <text style="color:gray">loading...</text>
+</view>
+<scroll-view scroll-y="{{true}}" style="height:100vh" class="my_container">
+  <view class="cu-btn bg-cyan" style="width:750rpx;height:5vh;font-weight:700;">👇　信息填写　👇</view>
+  <view class="cu-form-group">
+    <l-input l-row-class="my_row" label="姓名" placeholder="输入姓名..." bind:lininput="handleInput" data-value="name"
+      clear="true" required="{{true}}" value="{{name}}"></l-input>
+    <text class="cuIcon-profile text-orange"></text>
+  </view>
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
+    <l-input l-row-class="my_row" label="手机号" placeholder="输入手机号..." bind:linvalidate="handleValidation"
+      bind:lininput="handleInput" data-value="phone" clear="true" required="{{true}}" rules="{{phoneRules}}" value="{{phone}}"></l-input>
+    <text class="cuIcon-mobilefill text-orange"></text>
+  </view>
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
+    <l-input l-row-class="my_row" l-label-class="my_input" label="紧急联系人电话" placeholder="输入紧急联系人电话号..."
+      bind:linvalidate="handleValidation" bind:lininput="handleInput" data-value="urgentPhone" clear="true"
+      required="{{true}}" rules="{{phoneRules}}" value="{{urgentPhone}}"></l-input>
+    <text class="cuIcon-friendfill text-orange"></text>
+  </view>
+  <view class="cu-form-group" wx:if="{{userID!=-1}}">
+    <l-input l-row-class="my_row" label="身份证号码" placeholder="输入身份证号码..." bind:linvalidate="handleValidation"
+      bind:lininput="handleInput" data-value="idCard" clear="true" required="{{true}}" rules="{{idCardRules}}" value="{{idCard}}">
+    </l-input>
+    <text class="cuIcon-wenzi text-orange"></text>
+  </view>
+  <view style="background:white;position:relative;bottom:2vh">
+    <text style="padding-left:66rpx;color:#0081ff;font-size:1.2vh;font-style:italic">*仅用于购买保险需要</text>
+  </view>
+  <view style="position:relative;bottom:2vh">
+    <view class="cu-form-group" style="border-top: 1rpx solid #eee;">
+      <l-input l-row-class="my_row" width="300" l-label-class="my_input_color" label="上车地点" required="{{true}}"
+        disabled="true"></l-input>
+      <picker bindchange="PickerChange" value="{{locationIndex}}" range="{{activityInfo.selectedLocation}}"
+        range-key="name" data-value="location">
+        <view class="picker">
+          {{locationIndex!=-1?activityInfo.selectedLocation[locationIndex].name:'选择上车地点'}}
+        </view>
+      </picker>
+    </view>
+    <view class="cu-form-group">
+      <l-input l-row-class="my_row" width="300" l-label-class="my_input_color" label="住宿方案" required="{{true}}"
+        disabled="true"></l-input>
+      <picker bindchange="PickerChange" value="{{schemeIndex}}" range="{{activityInfo.scheme}}" range-key="text"
+        data-value="scheme">
+        <view class="picker">
+          {{schemeIndex!=-1?activityInfo.scheme[schemeIndex].text:'选择住宿方案'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="cu-btn bg-cyan margin-top" style="width:750rpx;height:5vh;font-weight:700;">👇　物资选择　👇</view>
+    <view class="margin-top">
+      <view style="background:white;display:flex;justify-content:space-between;" class="cu-form-group"
+        wx:for="{{selectedGood}}" wx:key="index">
+        <view class="cu-capsule radius">
+          <view class="cu-tag bg-cyan ">
+            <text class="cuIcon-goodsfavor"></text>
+          </view>
+          <view class="cu-tag line-cyan">
+            {{item.name}}:{{item.price}}元
+          </view>
+        </view>
+        <l-counter l-class="count" min="0" count="{{selectedGood[index].defaultNum}}" bind:linchange="handleCount"
+          data-value="{{item.id}}" />
+      </view>
+    </view>
+    <view class="cu-form-group margin-top">
+      <l-input l-row-class="my_row" label="备注" placeholder="是否有其他需求或问题？" bind:lininput="handleInput" data-value="remark"
+        clear="true" required="{{false}}" value="{{remark}}"></l-input>
+      <text class="cuIcon-edit text-orange"></text>
+    </view>
+    <view class="ticket-container">
+      <view class="ticket-container-bottom">
+        <l-collapse>
+          <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+            <!--自定义标题-->
+            <view class="title" slot="title">
+              <view class="ticket-detail-container">信息填写须知
+                <l-icon name="down" size="16" color="#999" />
+              </view>
+            </view>
+            <text>若您想与他人共住，请在住宿方案中选择包含“双人住”的方案，并在备注中说明对方的电话号码(最多仅支持两人共住)</text>
+          </l-collapse-item>
+        </l-collapse>
+      </view>
+    </view>
+    <button type="primary" bindtap="submit" class="margin-top">确认提交</button>
+  </view>
+</scroll-view>

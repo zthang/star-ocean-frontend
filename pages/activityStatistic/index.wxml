@@ -10,14 +10,14 @@
 <wux-fab-button position="bottomLeft" theme="royal" direction="vertical" buttons="{{ buttons }}" bind:change="onChange"
   bind:click="onClick" />
 <view class="cu-form-group" style="justify-content:space-around" wx:for="{{items}}" wx:key="index" data-index="index" data-id="{{item.id}}">
-  <scroll-view scroll-x="true" style="white-space:nowrap;">
-    <view class="cu-tag line-grey" wx:if="{{item.tempText}}">{{item.tempText}}</view>
-    <view class="cu-tag line-grey">姓名:{{item.name}}</view>
-    <view class="cu-tag line-grey">手机号:{{item.phone}}</view>
-    <view class="cu-tag line-grey">紧急联系方式:{{item.urgentPhone}}</view>
-    <view class="cu-tag line-grey">身份证:{{item.idCard}}</view>
-    <view class="cu-tag line-grey">应付款:{{item.shouldPay}}元</view>
-    <view class="cu-tag line-grey">备注:{{item.remark}}</view>
+  <scroll-view scroll-x="true" style="white-space:nowrap;min-height:80rpx;display:flex;align-items:center">
+    <view class="cu-tag bg-olive" wx:if="{{item.tempText}}">{{item.tempText}}</view>
+    <view class="cu-tag bg-olive">姓名:{{item.name}}</view>
+    <view class="cu-tag bg-olive">手机号:{{item.phone}}</view>
+    <view class="cu-tag bg-olive">紧急联系方式:{{item.urgentPhone}}</view>
+    <view class="cu-tag bg-olive">身份证:{{item.idCard}}</view>
+    <view class="cu-tag bg-olive">应付款:{{item.shouldPay}}元</view>
+    <view class="cu-tag bg-olive">备注:{{item.remark}}</view>
   </scroll-view>
   <checkbox-group bindchange="checkboxChange" data-value="{{index}}" wx:if="{{isVisible}}">
     <checkbox class="round blue" checked="{{item.selected}}"></checkbox>

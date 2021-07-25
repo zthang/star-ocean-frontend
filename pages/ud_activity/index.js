@@ -33,8 +33,8 @@ Component({
     selectedLocation: [],
     goodPicker: [],
     selectedGood: [],
-    universityPicker: [],
-    selectedUniversity: [],
+    clubPicker: [],
+    selectedClub: [],
     showInput: false,
     inputContent: "",
     scheme: [],
@@ -42,7 +42,6 @@ Component({
     activityLocation: "",
     activityPrice: "",
     delta: null,
-    tempImages: [],
     submitSuccess: false,
     submitError: false,
     dateTimeArray1: null,
@@ -118,7 +117,7 @@ Component({
       })
     },
     confirmModal(e) {
-      this.data.scheme.push(this.data.inputContent)
+      this.data.scheme.push(this.data.inputContent.replace('＝', '=').replace('，',','))
       this.setData({
         scheme: this.data.scheme,
         showInput: false
@@ -147,12 +146,12 @@ Component({
         })
       }
     },
-    universityPickerChange(e) {
+    clubPickerChange(e) {
       var index = e.detail.value
-      if (this.data.selectedUniversity.findIndex(item => item.id == this.data.universityPicker[index].id) == -1) {
-        this.data.selectedUniversity.push(this.data.universityPicker[index])
+      if (this.data.selectedClub.findIndex(item => item.id == this.data.clubPicker[index].id) == -1) {
+        this.data.selectedClub.push(this.data.clubPicker[index])
         this.setData({
-          selectedUniversity: this.data.selectedUniversity
+          selectedClub: this.data.selectedClub
         })
       }
     },
@@ -170,11 +169,11 @@ Component({
         selectedGood: this.data.selectedGood
       })
     },
-    closeUniversityTag(e) {
+    closeClubTag(e) {
       var removeID = e.currentTarget.dataset.value
-      this.data.selectedUniversity.splice(this.data.selectedUniversity.findIndex(item => item.id == removeID), 1)
+      this.data.selectedClub.splice(this.data.selectedClub.findIndex(item => item.id == removeID), 1)
       this.setData({
-        selectedUniversity: this.data.selectedUniversity
+        selectedClub: this.data.selectedClub
       })
     },
     closeSchemeTag(e) {
@@ -210,6 +209,7 @@ Component({
       that.editorCtx.getContents({
         success: function (res) { //获取返回的delta对象     
           var length = res.delta.ops.length;
+          var tempImgList = []
           var text = ""
           for (var i = 0; i < length; i++) {
             if (res.delta.ops[i].attributes && res.delta.ops[i].attributes.hasOwnProperty('data-custom')) { //筛选出里面的图片
@@ -221,19 +221,16 @@ Component({
                 index: i,
                 tempUrl: tempURL
               }
-              that.data.tempImages.push({
+              tempImgList.push({
                 index: i,
                 tempUrl: tempURL
-              })
-              that.setData({
-                tempImages: that.data.tempImages
               })
             } else {
               text += res.delta.ops[i].insert
             }
           }
 
-          Promise.allSettled(that.data.tempImages.map((item, index) => {
+          Promise.allSettled(tempImgList.map((item, index) => {
             return new Promise(function (resolve, reject) {
               wx.uploadFile({
                 url: app.globalData.baseURL + 'upload', //图片上传处理接口
@@ -249,6 +246,7 @@ Component({
                   resolve(result.data);
                   var data = JSON.parse(result.data)
                   res.delta.ops[data.imageid].insert.image = data.imageurl
+                  res.delta.ops[data.imageid].attributes["data-local"]=data.imageurl
                 },
                 fail: function (error) {
                   reject(new Error('failed to upload file'));
@@ -262,22 +260,22 @@ Component({
               delta: res.delta
             }, () => {
               console.log(text)
-              var firstIndex=res.delta.ops.findIndex(item=>item.attributes&&item.attributes.hasOwnProperty('data-custom'))
+              var firstIndex = res.delta.ops.findIndex(item => item.attributes && item.attributes.hasOwnProperty('data-custom'))
               wxRequest({
                 url: 'api/updateActivity',
                 data: {
-                  activityID:that.data.activityInfo.id,
+                  activityID: that.data.activityInfo.id,
                   activityName: that.data.activityName,
                   activityDate: that.data.date,
                   activityDDL: that.data.activityDDL,
                   activityLocation: that.data.activityLocation,
-                  activityPrice: (that.data.activityPrice+"").replace(/(^\s*)|(\s*$)/g, ""),
+                  activityPrice: (that.data.activityPrice + "").replace(/(^\s*)|(\s*$)/g, ""),
                   selectedLocation: that.data.selectedLocation.map(item => item.id),
                   selectedGood: that.data.selectedGood.map(item => item.id),
-                  selectedUniversity: that.data.selectedUniversity.map(item => item.id),
+                  selectedClub: that.data.selectedClub.map(item => item.id),
                   scheme: that.data.scheme,
                   delta: JSON.stringify(that.data.delta),
-                  showImg: firstIndex!=-1? res.delta.ops[firstIndex].insert.image : null,
+                  showImg: firstIndex != -1 ? res.delta.ops[firstIndex].insert.image : null,
                   plainText: text.replace(/[\'\"\\\/\b\f\n\r\t]/g, '')
                 },
               }).then(res => {
@@ -305,6 +303,7 @@ Component({
           }).catch((err) => {
             console.log(err)
           });
+
         }
       })
     },
@@ -368,13 +367,13 @@ Component({
         console.log(err)
       })
       wxRequest({
-        url: 'getUniversity',
+        url: 'api/getClub',
         data: {},
         method: "GET"
       }).then(res => {
         if (res.data.state === 200) {
           this.setData({
-            universityPicker: res.data.data
+            clubPicker: res.data.data
           })
         } else if (res.data.state === -1) {
           wx.lin.showMessage({
@@ -414,17 +413,18 @@ Component({
           activityInfo: data
         }, () => {
           console.log(that.data.activityInfo)
-          that.data.activityInfo.delta = JSON.parse(that.data.activityInfo.delta)
+          if (that.data.activityInfo.delta.ops == undefined)
+            that.data.activityInfo.delta = JSON.parse(that.data.activityInfo.delta)
           that.setData({
             activityInfo: that.data.activityInfo,
             activityName: that.data.activityInfo.activityName,
             date: that.data.activityInfo.activityDate,
             activityLocation: that.data.activityInfo.activityLocation,
-            activityPrice: that.data.activityInfo.activityPrice,
+            activityPrice: parseInt(that.data.activityInfo.activityPrice),
             selectedLocation: that.data.activityInfo.selectedLocation,
             selectedGood: that.data.activityInfo.selectedGood,
-            selectedUniversity: that.data.activityInfo.selectedUniversity,
-            scheme: that.data.activityInfo.scheme.map(item => item.text),
+            selectedClub: that.data.activityInfo.selectedClub,
+            scheme: that.data.activityInfo.scheme.map(item => item.text.substring(0,item.text.lastIndexOf(','))+'='+item.price),
             activityDDL: that.data.activityInfo.activityDDL
 
 

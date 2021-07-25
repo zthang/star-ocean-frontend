@@ -16,10 +16,10 @@ Page({
       //   message: '手机号不正确，请重新输入'
       // }
     ],
-    universityList:null,
-    universityIndex:null,
+    universityList: null,
+    universityIndex: null,
     studentID: null,
-    name:"",
+    name: "",
     isStudentValid: false,
     universityValid: false,
     canShowInfo: false,
@@ -48,7 +48,6 @@ Page({
     }
   },
   handleValidation(e) {
-    console.log(e)
     if (e.currentTarget.dataset.value == "student_id") {
       this.setData({
         isStudentValid: !e.detail.isError
@@ -79,8 +78,8 @@ Page({
       }
     }).catch(err => {
       console.log(err)
-  })
-},
+    })
+  },
   showInfo(e) {
     this.setData({
       canShowInfo: true
@@ -95,11 +94,10 @@ Page({
     }
   },
   isValid() {
-    return this.data.name.length>1 && this.data.isStudentValid && this.data.universityValid
+    return this.data.name.length > 1 && this.data.isStudentValid && this.data.universityValid
   },
   tempLogin(e) {
-    console.log(this.data)
-    var that=this
+    var that = this
     if (!this.isValid()) {
       wx.lin.showMessage({
         type: "error",
@@ -107,11 +105,11 @@ Page({
       })
     } else {
       wxRequest({
-        url: 'loginByPhone',
+        url: 'loginByInfo',
         data: {
           openid: wx.getStorageSync("openid"),
-          university:that.data.universityList[that.data.universityIndex].name,
-          name:that.data.name,
+          university: that.data.universityList[that.data.universityIndex].name,
+          name: that.data.name,
           studentID: that.data.studentID,
         },
       }).then(res => {
@@ -119,26 +117,9 @@ Page({
         if (res.data.state === 200) {
           wx.setStorageSync('accessToken', res.data.data.token)
           wx.setStorageSync('userID', res.data.data.userID)
-          wxRequest({
-            url: 'api/getUserInfo',
-            data: {
-              userID: res.data.data.userID,
-            },
-            method: "GET"
-          }).then(res => {
-            if (res.data.state === 200) {
-              app.globalData.userInfo = res.data.data
-              wx.switchTab({
-                url: '/pages/home/index',
-              })
-            } else if (res.data.state === -1) {
-              wx.lin.showMessage({
-                type: "error",
-                content: res.data.message
-              })
-            }
-          }).catch(err => {
-            console.log(err)
+          app.globalData.userInfo = res.data.data.userInfo
+          wx.switchTab({
+            url: '/pages/home/index',
           })
         } else if (res.data.state === -1) {
           wx.lin.showMessage({

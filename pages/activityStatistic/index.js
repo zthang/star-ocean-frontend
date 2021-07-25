@@ -16,6 +16,10 @@ const buttons = [{
   {
     label: '修改活动信息',
     icon: "/image/edite.png"
+  },
+  {
+    label: '修改报名信息',
+    icon: "/image/modify.png"
   }
 ]
 Component({
@@ -89,11 +93,6 @@ Component({
             item.text = item.name
             item.value = item.id
           })
-          that.data.activityInfo.scheme.map((item, index) => {
-            that.data.activityInfo.scheme[index] = {
-              text: item
-            }
-          })
           that.data.options[1].options = that.data.activityInfo.selectedLocation
           that.data.options[2].options = that.data.activityInfo.selectedGood
           that.data.options[3].options = that.data.activityInfo.scheme
@@ -148,23 +147,22 @@ Component({
       })
     },
     handleChange(e) {
-      console.log(this.data)
       if (e.detail.index == 0) {
         this.setData({
           items: this.data.activityList.allInfo
         })
       } else if (e.detail.index == 1) {
         this.setData({
-          items: this.data.activityList.locationInfo[e.detail.item.id]
+          items: this.data.activityList.locationInfo[e.detail.item.id] != undefined ? this.data.activityList.locationInfo[e.detail.item.id] : []
         })
       } else if (e.detail.index == 2) {
         this.setData({
-          items: this.data.activityList.goodInfo[e.detail.item.id]
+          items: this.data.activityList.goodInfo[e.detail.item.id] != undefined ? this.data.activityList.goodInfo[e.detail.item.id] : []
         })
       } else if (e.detail.index == 3) {
-        var text = e.detail.item.text.replace('=', ',') + "元/人"
+        var text = e.detail.item.text.replace('=', ',')
         this.setData({
-          items: this.data.activityList.schemeInfo[text]
+          items: this.data.activityList.schemeInfo[text] != undefined ? this.data.activityList.schemeInfo[text] : []
         })
       }
     },
@@ -185,41 +183,48 @@ Component({
         if (item.selected)
           openidList.push(item.openid)
       })
-      wxRequest({
-        url: 'api/sendMessage',
-        data: {
-          openid: openidList,
-          template_id: "vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE",
-          page: "index",
-          miniprogram_state: "developer",
-          message: {
-            thing2: {
-              value: that.data.activityInfo.activityName
-            },
-            thing1: {
-              value: that.data.inputContent
+      if (openidList.length > 0) {
+        wxRequest({
+          url: 'api/sendMessage',
+          data: {
+            openid: openidList,
+            template_id: "vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE",
+            page: "index",
+            miniprogram_state: "developer",
+            message: {
+              thing2: {
+                value: that.data.activityInfo.activityName
+              },
+              thing1: {
+                value: that.data.inputContent
+              }
             }
+          },
+        }).then(res => {
+          console.log(res)
+          if (res.data.state === 200) {
+            wx.lin.showMessage({
+              type: "success",
+              content: "通知发布成功"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: res.data.message
+            })
           }
-        },
-      }).then(res => {
-        console.log(res)
-        if (res.data.state === 200) {
-          wx.lin.showMessage({
-            type: "success",
-            content: "通知发布成功"
-          })
-        } else {
-          wx.lin.showMessage({
-            type: "error",
-            content: res.data.message
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-      this.setData({
-        showInput: false
-      })
+        }).catch(err => {
+          console.log(err)
+        })
+        this.setData({
+          showInput: false
+        })
+      } else {
+        wx.lin.showMessage({
+          type: "error",
+          content: "请至少选择一个人"
+        })
+      }
     },
     checkboxChange(e) {
       this.data.items[e.currentTarget.dataset.value]["selected"] = (this.data.items[e.currentTarget.dataset.value]["selected"] == undefined || this.data.items[e.currentTarget.dataset.value]["selected"] == false) ? true : false
@@ -234,9 +239,21 @@ Component({
           items: this.data.items
         })
       } else if (e.detail.index == 1) {
-        that.setData({
-          showInput: true
+        var openidList = []
+        this.data.items.map(item => {
+          if (item.selected)
+            openidList.push(item.openid)
         })
+        if (openidList.length > 0) {
+          that.setData({
+            showInput: true
+          })
+        } else {
+          wx.lin.showMessage({
+            type: "error",
+            content: "请至少选择一个人"
+          })
+        }
       } else if (e.detail.index == 2) {
         wx.navigateTo({
           url: '/pages/ud_activity/index',
@@ -245,10 +262,46 @@ Component({
             res.eventChannel.emit('activityInfo', that.data.activityInfo)
           }
         })
+      } else if (e.detail.index == 3) {
+        var itemList = []
+        this.data.items.map(item => {
+          if (item.selected)
+            itemList.push(item)
+        })
+        if (itemList.length != 1) {
+          wx.lin.showMessage({
+            type: "error",
+            content: "必须且只能选择一个人"
+          })
+        } else {
+          wx.navigateTo({
+            url: '/pages/ud_enrol/index',
+            success: function (res) {
+              var aInfo = {}
+              var defaultMap = {}
+              itemList[0].goods.map(item => {
+                defaultMap[item.good] = item.num
+              })
+              that.data.activityInfo.selectedGood.map(item => {
+                item.defaultNum = defaultMap[item.id] != undefined ? defaultMap[item.id] : 0
+                item.num = item.defaultNum
+              })
+              aInfo["id"] = that.data.activityInfo.id
+              aInfo["activityPrice"] = that.data.activityInfo.activityPrice
+              aInfo["selectedLocation"] = that.data.activityInfo.selectedLocation
+              aInfo["selectedGood"] = that.data.activityInfo.selectedGood
+              aInfo["scheme"] = that.data.activityInfo.scheme
+              // 通过eventChannel向被打开页面传送数据
+              res.eventChannel.emit('activityEnrolInfo', {
+                activityInfo: aInfo,
+                enrolInfo: itemList[0],
+              })
+            }
+          })
+        }
       }
     },
     onChange(e) {
-      console.log(this.data.activityList)
       this.setData({
         isVisible: !this.data.isVisible
       })

@@ -12,7 +12,7 @@
     </l-form-item>
 
     <l-form-item label="学号:" name="student_id">
-      <l-input disabled id="student_id" value="{{userInfo.student_id}}" hide-label show-row="{{true}}" />
+      <l-input disabled id="student_id" value="{{userInfo.studentID}}" hide-label show-row="{{true}}" />
     </l-form-item>
     <l-form-item label="专业:" name="faculty">
       <l-input disabled id="faculty" value="{{userInfo.faculty}}" hide-label show-row="{{true}}" />

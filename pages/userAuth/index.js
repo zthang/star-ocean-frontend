@@ -102,9 +102,9 @@ Component({
                   // that.setData({
                   //   imageid: that.data.imageid + 1 //图片id加1
                   // })
-                  console.log(result)
-                  resolve(result.data);
                   var data = JSON.parse(result.data)
+                  console.log(data)
+                  resolve(data);
                   that.data.imgList[data.imageid] = data.imageurl
                 },
                 fail: function (error) {
@@ -114,7 +114,18 @@ Component({
               })
             });
           })).then((result) => {
-            console.log(that.data)
+            console.log(result)
+            var errIndex=result.findIndex(item=>
+              item.value.state==0
+            )
+            if(errIndex!=-1)
+            {
+              wx.lin.showMessage({
+                type: "error",
+                content: result[errIndex].value.message
+              })
+            }
+            else{
             that.setData({
               imgList: that.data.imgList
             }, () => {
@@ -150,7 +161,12 @@ Component({
                 console.log(err)
               })
             })
+          }
           }).catch((err) => {
+            wx.lin.showMessage({
+              type: "error",
+              content: err
+            })
             console.log(err)
           });
         }

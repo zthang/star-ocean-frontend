@@ -1,8 +1,10 @@
 {
   "pages": [
     "pages/login/index",
-    "pages/user/index",
     "pages/activityEnrol/index",
+    "pages/editSomething/index",
+    "pages/activityStatistic/index",
+    "pages/user/index",
     "pages/activityInfo/index",
     "pages/home/index",
     "pages/mk_activity/index",
@@ -13,8 +15,8 @@
     "pages/authUser/index",
     "pages/authInfo/index",
     "pages/activityList/index",
-    "pages/activityStatistic/index",
-    "pages/ud_activity/index"
+    "pages/ud_activity/index",
+    "pages/ud_enrol/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -69,6 +71,7 @@
     "l-counter": "miniprogram_npm/lin-ui/counter/index",
     "l-radio": "miniprogram_npm/lin-ui/radio/index",
     "l-radio-group": "miniprogram_npm/lin-ui/radio-group/index",
+    "l-search-bar":"miniprogram_npm/lin-ui/search-bar/index",
     "w-drop-menu": "miniprogram_npm/wuss-weapp/w-drop-menu/index",
     "wux-fab-button": "miniprogram_npm/wux-weapp/fab-button/index"
   }
