@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/activityEnrol/index",
     "pages/login/index",
+    "pages/activityEnrol/index",
     "pages/editSomething/index",
     "pages/activityStatistic/index",
     "pages/user/index",

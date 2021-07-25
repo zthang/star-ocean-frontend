@@ -68,6 +68,7 @@ watch(this.globalData[key]);
     // baseURL:'https://localhost:8787/',
     baseURL:'https://xzxjlljh.xyz:8787/',
     loading:null,
+    h5zhifu_appid:"2107186761",
   },
   // wxRequest({
   //   url: '',
@@ -95,7 +96,7 @@ watch(this.globalData[key]);
       this.globalData.loading=true
       var _this=this
       wx.request({
-        url: this.globalData.baseURL + params.url,
+        url: params.url.indexOf("http") == -1 ? this.globalData.baseURL + params.url : params.url,
         data:params.data,
         header:{
           Authorization: accessToken,

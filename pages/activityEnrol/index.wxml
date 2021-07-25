@@ -121,7 +121,6 @@
           星海会员在本次活动中享受优惠金额，活动方将在活动结束后退还相应费用。但星海会员如有因任何原因放弃本次外出的，均不享受优惠政策。\n\n17.
           领队与活动负责人有权根据各种不可抗力与意外更改活动行程与时间，但会与各参与者进行妥善协商。\n\n18. 星海天文对本声明以及全部活动保留最终解释权。</text>
       </scroll-view>
-      //todo
       <l-countdown time-type="second" time="15" status="{{canCountDown}}" format="阅读{%s}秒后方可勾选"
         bind:linend="canArgee" />
     </l-dialog>
@@ -129,3 +128,17 @@
   </view>
   <view style="height:10vh"></view>
 </scroll-view>
+<view class="cu-modal {{showInput==true?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">支付结果</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="cu-bar bg-white">
+      <button style="width:30vw" class="cu-btn bg-green margin-left" bindtap="confirmModal">支付成功</button>
+      <button style="width:30vw" class="cu-btn line-green text-green" bindtap="hideModal">遇到问题</button>
+    </view>
+  </view>
+</view>

@@ -81,24 +81,49 @@ Component({
                 content: "请先进行学生认证！"
               })
             } else {
-              for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
-                this.data.activityInfo.selectedGood[i].num = 0;
-              this.setData({
-                selectedGood: this.data.activityInfo.selectedGood
-              }, () => {
-                wx.navigateTo({
-                  url: '/pages/activityEnrol/index',
-                  success: function (res) {
-                    // 通过eventChannel向被打开页面传送数据
-                    res.eventChannel.emit('activityInfo', {
-                      id: that.data.activityInfo.id,
-                      selectedLocation: that.data.activityInfo.selectedLocation,
-                      selectedGood: that.data.activityInfo.selectedGood,
-                      scheme: that.data.activityInfo.scheme,
-                      activityPrice: that.data.activityInfo.activityPrice
+              wxRequest({
+                url: 'api/checkIfEnrolled',
+                data: {
+                  userID: app.globalData.userInfo.id,
+                  activityID: that.data.activityInfo.id,
+                },
+              }).then(res => {
+                console.log(res)
+                if (res.data.state === 200) {
+                  if (res.data.data == 1) {
+                    wx.lin.showMessage({
+                      type: "error",
+                      content: "您已经报过名了！"
+                    })
+                  } else {
+                    for (var i = 0; i < that.data.activityInfo.selectedGood.length; i++)
+                    that.data.activityInfo.selectedGood[i].num = 0;
+                    that.setData({
+                      selectedGood: that.data.activityInfo.selectedGood
+                    }, () => {
+                      wx.navigateTo({
+                        url: '/pages/activityEnrol/index',
+                        success: function (res) {
+                          // 通过eventChannel向被打开页面传送数据
+                          res.eventChannel.emit('activityInfo', {
+                            id: that.data.activityInfo.id,
+                            selectedLocation: that.data.activityInfo.selectedLocation,
+                            selectedGood: that.data.activityInfo.selectedGood,
+                            scheme: that.data.activityInfo.scheme,
+                            activityPrice: that.data.activityInfo.activityPrice
+                          })
+                        }
+                      })
                     })
                   }
-                })
+                } else {
+                  wx.lin.showMessage({
+                    type: "error",
+                    content: res.data.message
+                  })
+                }
+              }).catch(err => {
+                console.log(err)
               })
             }
           } else if (res.data.state === -1) {
