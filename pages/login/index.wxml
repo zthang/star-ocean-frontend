@@ -41,7 +41,7 @@
       <!-- <button style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;" type='primary' wx:if="{{canIUseGetUserProfile}}" open-type="getPhoneNumber" bind:getphonenumber="getphonenumber"> 微信授权 </button> -->
       <button
         style="width:40vw !important;height:5vh;line-height:3.2vh;font-size:2.5vh;padding:1vh 3vw 1vh 3vw !important;"
-        type='primary' wx:if="{{canIUseGetUserProfile}}" bindtap="tempLogin"> 登陆 </button>
+        type='primary' wx:if="{{canIUseGetUserProfile}}" bindtap="tempLogin"> 登录 </button>
       <view wx:else style="color:white"> 请升级微信版本 </view>
       <text style="color:white;font-size:1.5vh;text-aligin:center;padding-top:2vh">*使用本程序需要您使用微信号进行登录\n</text>
       <text bindtap="showInfo" style="color:yellow;font-size:1.5vh;text-aligin:center;padding-top:1vh">免责申明</text>

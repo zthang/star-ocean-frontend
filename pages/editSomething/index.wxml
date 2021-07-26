@@ -86,7 +86,7 @@
   </view>
 </view>
 <view wx:if="{{2==TabCur}}" style="position:relative;top:1vh">
-  <l-search-bar confirmType="search" placeholder="搜索用户姓名" bg-color="white" shape="circle" cancel-text="搜索"
+  <l-search-bar confirmType="search" value="{{searchContent}}" placeholder="搜索用户姓名" bg-color="white" shape="circle" cancel-text="搜索"
     bind:lincancel="searchName" bind:linchange="inputChange" data-value="search" />
   <view wx:if="{{showInput}}" class="margin-top">
     <view class="cu-form-group">

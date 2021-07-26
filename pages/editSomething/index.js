@@ -178,7 +178,8 @@ Component({
           showInput: true,
           mode: 1,
           club: [],
-          universityIndex: null
+          universityIndex: null,
+          searchContent:""
         })
         if (this.data.TabCur == 2) {
           this.setData({
@@ -240,6 +241,24 @@ Component({
           }, () => {
             if(that.data.mode==1)
             {
+              if(!(that.data.name.length>0&&that.data.studentID.length>0&&that.data.universityIndex!=null&&that.data.universityIndex>=0))
+              {
+                wx.lin.showMessage({
+                  type: "error",
+                  duration:3000,
+                  content: "请将信息填写完整！"
+                })
+                return 
+              }
+              if(that.data.club.length==0)
+              {
+                wx.lin.showMessage({
+                  type: "error",
+                  duration:3000,
+                  content: "用户至少应该属于一个社团！"
+                })
+                return 
+              }
               wxRequest({
                 url: 'api/addUserInfo',
                 data: {
@@ -271,6 +290,29 @@ Component({
             }
             else if(that.data.mode==2)
             {
+              var flag=false
+              for(var i=0;i<this.data.items.length;i++)
+              {
+                for(var j=0;j<this.data.items[i].club.length;j++)
+                {
+                  if(this.data.items[i].club[j].state==undefined || this.data.items[i].club[j].state!=3)
+                  {
+                    flag=true
+                    break
+                  }
+                }
+                if(flag)
+                  break
+              }
+              if(!flag)
+              {
+                wx.lin.showMessage({
+                  type: "error",
+                  duration:3000,
+                  content: "用户至少应该属于一个社团！"
+                })
+                return 
+              }
               wxRequest({
                 url: 'api/updateUserInfo',
                 data: {
@@ -462,6 +504,9 @@ Component({
           console.log(err)
         })
       } else if (e.currentTarget.dataset.id == 2) {
+        this.setData({
+          searchContent:""
+        })
         if (this.data.clubPicker.length == 0)
         wxRequest({
           url: 'api/getClub',
