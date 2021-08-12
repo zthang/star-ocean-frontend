@@ -100,7 +100,11 @@ Component({
         var goodsPrice = 0
         for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
           goodsPrice += this.data.activityInfo.selectedGood[i].price * this.data.activityInfo.selectedGood[i].num
-        var shouldPay = this.data.activityInfo.activityPrice + parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price) + goodsPrice
+        var shouldPay = this.data.activityInfo.activityPrice + goodsPrice
+        if(this.data.activityInfo.scheme.length>0)
+        {
+          shouldPay += parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price)
+        }
         wxRequest({
           url: 'api/checkIfEnrolled',
           data: {
@@ -116,65 +120,80 @@ Component({
                 content: "您已经报过名了！"
               })
             } else {
-              wxRequest({
-                url: 'api/checkPayment',
-                data: {
-                  activityID: that.data.activityInfo.id,
-                  userID: app.globalData.userInfo.id,
-                },
-              }).then(res => {
-                console.log(res)
-                if (res.data.state === 200) {
-                  if (res.data.data.in_trade_no != undefined && res.data.data.in_trade_no.length > 0) {
-                    if (res.data.data.amount == shouldPay) {
-                      that.addUserEnrol(res.data.data.amount / 100)
-                      wx.lin.showMessage({
-                        type: "success",
-                        content: "您已付款成功，正在添加报名信息..."
-                      })
-                    }
-                    else{
-                      wx.lin.showMessage({
-                        type: "error",
-                        content: "您已付款成功,但信息有变动,请联系客服"
-                      })
-                    }
+              wx.requestSubscribeMessage({
+                tmplIds: ['vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
+                success(res) {
+                  if (shouldPay == 0) {
+                    that.addUserEnrol(0)
                   } else {
                     wxRequest({
-                      url: 'api/getPaymentAddress',
+                      url: 'api/checkPayment',
                       data: {
                         activityID: that.data.activityInfo.id,
                         userID: app.globalData.userInfo.id,
-                        amount: shouldPay + '',
-                        app_id: app.globalData.h5zhifu_appid,
-                        description: "enrol",
-                        notify_url: "https://xzxjlljh.xyz:8787/payment",
-                        out_trade_no: that.generateOrderID(),
-                        pay_type: "wechat",
                       },
                     }).then(res => {
                       console.log(res)
                       if (res.data.state === 200) {
-                        wx.navigateToMiniProgram({
-                          appId: res.data.data.data.jump_appid,
-                          path: res.data.data.data.jump_path,
-                          //envVersion: 'develop',
-                          success(res) {
+                        if (res.data.data.in_trade_no != undefined && res.data.data.in_trade_no.length > 0) {
+                          if (res.data.data.amount == shouldPay) {
+                            that.addUserEnrol(res.data.data.amount / 100)
                             wx.lin.showMessage({
                               type: "success",
-                              content: "跳转成功"
+                              content: "您已付款成功，正在添加报名信息..."
                             })
-                            that.setData({
-                              showInput: true
-                            })
-                          },
-                          fail(res) {
+                          } else {
                             wx.lin.showMessage({
                               type: "error",
-                              content: "跳转失败"
+                              content: "您已付款成功,但信息有变动,请联系客服"
                             })
-                          },
-                        })
+                          }
+                        } else {
+                          wxRequest({
+                            url: 'api/getPaymentAddress',
+                            data: {
+                              activityID: that.data.activityInfo.id,
+                              userID: app.globalData.userInfo.id,
+                              amount: shouldPay + '',
+                              app_id: app.globalData.h5zhifu_appid,
+                              description: "enrol",
+                              notify_url: "https://xzxjlljh.xyz:8787/payment",
+                              out_trade_no: that.generateOrderID(),
+                              pay_type: "wechat",
+                            },
+                          }).then(res => {
+                            console.log(res)
+                            if (res.data.state === 200) {
+                              wx.navigateToMiniProgram({
+                                appId: res.data.data.data.jump_appid,
+                                path: res.data.data.data.jump_path,
+                                //envVersion: 'develop',
+                                success(res) {
+                                  wx.lin.showMessage({
+                                    type: "success",
+                                    content: "跳转成功"
+                                  })
+                                  that.setData({
+                                    showInput: true
+                                  })
+                                },
+                                fail(res) {
+                                  wx.lin.showMessage({
+                                    type: "error",
+                                    content: "跳转失败"
+                                  })
+                                },
+                              })
+                            } else {
+                              wx.lin.showMessage({
+                                type: "error",
+                                content: res.data.message
+                              })
+                            }
+                          }).catch(err => {
+                            console.log(err)
+                          })
+                        }
                       } else {
                         wx.lin.showMessage({
                           type: "error",
@@ -185,14 +204,7 @@ Component({
                       console.log(err)
                     })
                   }
-                } else {
-                  wx.lin.showMessage({
-                    type: "error",
-                    content: res.data.message
-                  })
                 }
-              }).catch(err => {
-                console.log(err)
               })
             }
           } else {
@@ -208,45 +220,40 @@ Component({
     },
     addUserEnrol(shouldPay) {
       var that = this
-      wx.requestSubscribeMessage({
-        tmplIds: ['vg-olnxdBPAlF895O-T4sREYjj7zzF0f7CDQVaDLwFE'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
-        success(res) {
-          wxRequest({
-            url: 'api/activityEnrol',
-            data: {
-              activityID: that.data.activityInfo.id,
-              userID: app.globalData.userInfo.id,
-              name: that.data.name,
-              phone: that.data.phone,
-              urgentPhone: that.data.urgentPhone,
-              idCard: that.data.idCard,
-              location: that.data.activityInfo.selectedLocation[that.data.locationIndex].id,
-              scheme: that.data.activityInfo.scheme[that.data.schemeIndex],
-              goods: that.data.activityInfo.selectedGood,
-              remark: that.data.remark,
-              shouldPay: shouldPay,
-              openid: wx.getStorageSync('openid')
-            },
-          }).then(res => {
-            console.log(res)
-            if (res.data.state === 200) {
-              that.setData({
-                submitSuccess: true
-              })
-            } else {
-              that.setData({
-                submitError: true,
-                errorMessage: res.data.message
-              })
-              wx.lin.showMessage({
-                type: "error",
-                content: res.data.message
-              })
-            }
-          }).catch(err => {
-            console.log(err)
+      wxRequest({
+        url: 'api/activityEnrol',
+        data: {
+          activityID: that.data.activityInfo.id,
+          userID: app.globalData.userInfo.id,
+          name: that.data.name,
+          phone: that.data.phone,
+          urgentPhone: that.data.urgentPhone,
+          idCard: that.data.idCard,
+          location: that.data.activityInfo.selectedLocation[that.data.locationIndex].id,
+          scheme: that.data.activityInfo.scheme[that.data.schemeIndex],
+          goods: that.data.activityInfo.selectedGood,
+          remark: that.data.remark,
+          shouldPay: shouldPay,
+          openid: wx.getStorageSync('openid')
+        },
+      }).then(res => {
+        console.log(res)
+        if (res.data.state === 200) {
+          that.setData({
+            submitSuccess: true
+          })
+        } else {
+          that.setData({
+            submitError: true,
+            errorMessage: res.data.message
+          })
+          wx.lin.showMessage({
+            type: "error",
+            content: res.data.message
           })
         }
+      }).catch(err => {
+        console.log(err)
       })
     },
     onLoad: function (option) {
@@ -371,7 +378,7 @@ Component({
       }
     },
     isValid() {
-      return this.data.name.length > 1 && this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
+      return this.data.name.length > 1 && this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && (this.data.schemeValid||this.data.activityInfo.scheme.length==0) && this.data.isAgree
     },
     showInfo(e) {
       this.setData({

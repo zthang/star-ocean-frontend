@@ -75,8 +75,10 @@ Component({
       var goodsPrice = 0
       for (var i = 0; i < this.data.activityInfo.selectedGood.length; i++)
         goodsPrice += this.data.activityInfo.selectedGood[i].price * this.data.activityInfo.selectedGood[i].num
-      var shouldPay = this.data.activityInfo.activityPrice + parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price) + goodsPrice
-
+      var shouldPay = this.data.activityInfo.activityPrice + goodsPrice
+      if (this.data.activityInfo.scheme.length > 0) {
+        shouldPay += parseInt(this.data.activityInfo.scheme[this.data.schemeIndex].price)
+      }
       wxRequest({
         url: 'api/updateEnrol',
         data: {
@@ -123,26 +125,26 @@ Component({
       });
       const eventChannel = this.getOpenerEventChannel()
       eventChannel.on('activityEnrolInfo', function (data) {
-        var locationIndex=data.activityInfo.selectedLocation.findIndex((item)=>
-          item.id==data.enrolInfo.location.id
+        var locationIndex = data.activityInfo.selectedLocation.findIndex((item) =>
+          item.id == data.enrolInfo.location.id
         )
-        var schemeIndex=data.activityInfo.scheme.findIndex((item)=>
-          data.enrolInfo.scheme.text.indexOf(item.text)!=-1
+        var schemeIndex = data.activityInfo.scheme.findIndex((item) =>
+          data.enrolInfo.scheme.text.indexOf(item.text) != -1
         )
         that.setData({
-          selectedGood:data.activityInfo.selectedGood,
-          enrolID:data.enrolInfo.id,
-          activityInfo:data.activityInfo,
-          userID:data.enrolInfo.userID,
-          openid:data.enrolInfo.openid,
-          activityID:data.enrolInfo.activityID,
-          name:data.enrolInfo.name,
-          phone:data.enrolInfo.phone,
-          urgentPhone:data.enrolInfo.urgentPhone,
-          idCard:data.enrolInfo.idCard,
-          remark:data.enrolInfo.remark,
-          locationIndex:locationIndex,
-          schemeIndex:schemeIndex,
+          selectedGood: data.activityInfo.selectedGood,
+          enrolID: data.enrolInfo.id,
+          activityInfo: data.activityInfo,
+          userID: data.enrolInfo.userID,
+          openid: data.enrolInfo.openid,
+          activityID: data.enrolInfo.activityID,
+          name: data.enrolInfo.name,
+          phone: data.enrolInfo.phone,
+          urgentPhone: data.enrolInfo.urgentPhone,
+          idCard: data.enrolInfo.idCard,
+          remark: data.enrolInfo.remark,
+          locationIndex: locationIndex,
+          schemeIndex: schemeIndex,
         })
       })
     },
@@ -153,7 +155,7 @@ Component({
     },
     handleCount(e) {
       var id = e.currentTarget.dataset.value
-      var str='activityInfo.selectedGood'
+      var str = 'activityInfo.selectedGood'
       this.data.activityInfo.selectedGood.map((item) => {
         if (item.id == id) {
           item.num = e.detail.count
@@ -215,7 +217,7 @@ Component({
       }
     },
     isValid() {
-      return this.data.name.length > 1 && this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && this.data.schemeValid && this.data.isAgree
+      return this.data.name.length > 1 && this.data.isPhoneValid && this.data.isUrgentPhoneValid && this.data.isIdCardValid && this.data.locationValid && (this.data.schemeValid||this.data.activityInfo.scheme.length==0) && this.data.isAgree
     },
     showInfo(e) {
       this.setData({

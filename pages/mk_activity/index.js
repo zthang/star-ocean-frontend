@@ -193,6 +193,30 @@ Component({
     },
     getContent() {
       const that = this
+      if(this.data.activityName.length==0||this.data.activityLocation.length==0||this.data.activityPrice.length==0)
+      {
+        wx.lin.showMessage({
+          type: "error",
+          content: "请将信息填写完整！"
+        })
+        return
+      }
+      if(this.data.selectedLocation.length==0)
+      {
+        wx.lin.showMessage({
+          type: "error",
+          content: "请至少选择一个上车地点！"
+        })
+        return
+      }
+      if(this.data.selectedClub.length==0)
+      {
+        wx.lin.showMessage({
+          type: "error",
+          content: "请至少选择一个受众社团！"
+        })
+        return
+      }
       this.replaceImage()
     },
     readOnlyChange() {
@@ -478,6 +502,18 @@ Component({
       const formats = e.detail
       this.setData({
         formats
+      })
+    },
+    invertAll(e){
+      var tempSelectedClub=[]
+      for(var i=0;i<this.data.clubPicker.length;i++)
+      {
+        if (this.data.selectedClub.findIndex(item => item.id == this.data.clubPicker[i].id) == -1) {
+          tempSelectedClub.push(this.data.clubPicker[i])
+        }
+      }
+      this.setData({
+        selectedClub: tempSelectedClub
       })
     },
     insertDivider() {

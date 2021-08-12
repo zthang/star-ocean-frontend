@@ -47,7 +47,7 @@
         </view>
       </picker>
     </view>
-    <view class="cu-form-group">
+    <view class="cu-form-group" wx:if="{{activityInfo.scheme.length>0}}">
       <l-input l-row-class="my_row" width="300" l-label-class="my_input_color" label="住宿方案" required="{{true}}"
         disabled="true"></l-input>
       <picker bindchange="PickerChange" value="{{schemeIndex}}" range="{{activityInfo.scheme}}" range-key="text"
@@ -58,7 +58,7 @@
       </picker>
     </view>
 
-    <view class="cu-btn bg-cyan margin-top" style="width:750rpx;height:5vh;font-weight:700;">👇　物资选择　👇</view>
+    <view wx:if="{{activityInfo.selectedGood.length>0}}" class="cu-btn bg-cyan margin-top" style="width:750rpx;height:5vh;font-weight:700;">👇　物资选择　👇</view>
     <view class="margin-top">
       <view style="background:white;display:flex;justify-content:space-between;" class="cu-form-group"
         wx:for="{{activityInfo.selectedGood}}" wx:key="item">

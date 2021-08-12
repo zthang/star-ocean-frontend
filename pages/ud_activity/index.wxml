@@ -77,8 +77,11 @@
         </picker>
       </view>
       <view class="cu-form-group">
-        <view class="title">受众社团</view>
-        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
+        <view style="display:flex;flex-direction:column;align-items:center">
+          <view class="title" style="padding:0">受众社团</view>
+          <button bindtap="invertAll" class="cu-btn bg-red sm" style="width:15vw;height:2.5vh;padding:0">反选</button>
+        </view>
+        <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;padding-left:3vw">
           <view class="cu-capsule radius" style="height:4vh" wx:for="{{selectedClub}}" wx:key="index">
             <view class="cu-tag bg-cyan " bindtap="closeClubTag" data-value="{{item.id}}">
               <text class="cuIcon-close"></text>
@@ -128,7 +131,7 @@
       </view>
     </view>
     <view style="height:50vh">
-      <button class="cu-btn bg-cyan" style="width:200rpx;height:5vh">活动介绍</button>
+      <button class="cu-btn bg-cyan" style="width:100%;height:5vh">活动介绍</button>
       <view class="cu-form-group" style="height:45vh;padding:0 0 !important">
         <editor id="editor" class="ql-container" placeholder="{{placeholder}}" showImgSize showImgToolbar showImgResize
           bindstatuschange="onStatusChange" bindready="onEditorReady">

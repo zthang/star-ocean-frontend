@@ -29,7 +29,7 @@
         <input disabled="true" value="{{activityInfo.activityPrice}}元"></input>
         <text class="cuIcon-rechargefill text-orange"></text>
       </view>
-      <view class="cu-form-group">
+      <view class="cu-form-group" wx:for="{{activityInfo.selectedGood.length>0}}">
         <view class="title">可能需要的物资</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
           <view class="cu-capsule radius" style="height:4vh" wx:for="{{activityInfo.selectedGood}}" wx:key="item">
@@ -42,7 +42,7 @@
           </view>
         </scroll-view>
       </view>
-      <view class="cu-form-group">
+      <view class="cu-form-group" wx:if="{{activityInfo.scheme.length>0}}">
         <view class="title">可选住宿方案</view>
         <scroll-view scroll-x="true" class="picker" style="width:60vw;white-space:nowrap;">
           <view class="cu-capsule radius" style="height:4vh" wx:for="{{activityInfo.scheme}}" wx:key="item">
